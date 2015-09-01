@@ -1,0 +1,34 @@
+<Solution>
+  <PropertyGroup Name="Richer" Version="2.3.2.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="StartScene.csd" Type="Scene" />
+        <Project Name="SetScene.csd" Type="Scene" />
+        <Project Name="GameScene.csd" Type="Scene" />
+        <Project Name="PauseLayer.csd" Type="Layer" />
+        <Project Name="GameOverLayer.csd" Type="Layer" />
+        <Image Name="55a3987969401b5c53a46c4f.jpg" />
+        <Image Name="iconfont-fenxiangb-2.png" />
+        <Image Name="iconfont-iconfontgongyichongwu-2.png" />
+        <Image Name="iconfont-iconfontjiazhuangjiancai-3.png" />
+        <Image Name="begin.png" />
+        <Image Name="richer.png" />
+        <Image Name="continue.png" />
+        <Image Name="quit.png" />
+        <Image Name="gameover.png" />
+        <Image Name="richer1.jpg" />
+        <Image Name="richer2.jpg" />
+        <Image Name="richer3.jpg" />
+        <Image Name="richer4.jpg" />
+        <Image Name="touchBack.png" />
+        <Image Name="chooseRicher.png" />
+        <Image Name="iconfont-check.png" />
+        <Image Name="initmoney.png" />
+        <Image Name="iconfont-back.png" />
+        <Image Name="iconfont-more.png" />
+        <Image Name="bg.jpg" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
