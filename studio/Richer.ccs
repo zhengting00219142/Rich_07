@@ -5,7 +5,6 @@
       <RootFolder Name=".">
         <Project Name="StartScene.csd" Type="Scene" />
         <Project Name="SetScene.csd" Type="Scene" />
-        <Project Name="GameScene.csd" Type="Scene" />
         <Project Name="PauseLayer.csd" Type="Layer" />
         <Project Name="GameOverLayer.csd" Type="Layer" />
         <Image Name="iconfont-fenxiangb-2.png" />
