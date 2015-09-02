@@ -8,19 +8,25 @@
 
 #include "PlayerSprite.h"
 
-PlayerSprite* PlayerSprite::create(int fund)
+PlayerSprite* PlayerSprite::create(const std::string& filename, int fund)
 {
-    PlayerSprite* pRet = new PlayerSprite();
-    pRet->cash = fund;
-    
-    if (pRet && pRet->init())
-    {
-        pRet->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(pRet);
+    PlayerSprite *sprite = new (std::nothrow) PlayerSprite();
+    // init fund
+    sprite->cash = fund;
+    sprite->ticket = 0;
+    sprite->status = STATUS_NORM;
+    // init items
+    for(int i = 0; i < ITEM_KINDS; i++) {
+        sprite->items[i] = 0;
     }
     
-    return pRet;
+    if (sprite && sprite->initWithFile(filename))
+    {
+        sprite->autorelease();
+        return sprite;
+    }
+    CC_SAFE_DELETE(sprite);
+    return nullptr;
 }
+
+PlayerSprite::PlayerSprite(){}
