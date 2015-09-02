@@ -126,14 +126,14 @@
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
           <AbstractNodeData Name="richer1_3_2" ActionTag="-1532043719" Tag="31" IconVisible="False" LeftMargin="882.8253" RightMargin="13.1747" TopMargin="384.9054" BottomMargin="-328.9054" ctype="SpriteObjectData">
-            <Size X="46.0000" Y="46.0000" />
+            <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1394.8253" Y="183.0946" />
             <Scale ScaleX="0.2000" ScaleY="0.2000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.7265" Y="0.1695" />
             <PreSize X="0.0000" Y="0.0000" />
-            <FileData Type="Default" Path="Default/Sprite.png" Plist="" />
+            <FileData Type="Normal" Path="richer4.png" Plist="" />
             <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
         </Children>

@@ -32,6 +32,8 @@
         <Image Name="block.png" />
         <Image Name="bomb.png" />
         <Image Name="setting.png" />
+        <Project Name="BgLayer.csd" Type="Layer" />
+        <Image Name="richer4.png" />
       </RootFolder>
     </Group>
   </SolutionFolder>
