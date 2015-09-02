@@ -1,3 +1,8 @@
+Rich.cfg
+Rich.ccs
+Rich.udf
+cocosstudio
+.DS_Store
 proj.*
 cocos2d
 CMakeLists.txt
