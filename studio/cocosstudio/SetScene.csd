@@ -32,63 +32,58 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="richer1" ActionTag="-1186174544" Tag="36" IconVisible="False" LeftMargin="696.4928" RightMargin="1043.5072" TopMargin="219.0177" BottomMargin="660.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="150" Scale9Height="178" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
-            <Size X="180.0000" Y="200.0000" />
+          <AbstractNodeData Name="richer1" ActionTag="-1186174544" Tag="36" IconVisible="False" LeftMargin="274.4928" RightMargin="621.5072" TopMargin="-192.9823" BottomMargin="248.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="786.4928" Y="760.9823" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <Scale ScaleX="0.2000" ScaleY="0.2000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.4096" Y="0.7046" />
-            <PreSize X="0.0938" Y="0.1852" />
+            <PreSize X="0.5333" Y="0.9481" />
             <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Normal" Path="richer1.jpg" Plist="" />
-            <PressedFileData Type="Normal" Path="richer1.jpg" Plist="" />
-            <NormalFileData Type="Normal" Path="richer1.jpg" Plist="" />
+            <PressedFileData Type="Normal" Path="richer1.png" Plist="" />
+            <NormalFileData Type="Normal" Path="richer1.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="rich2" ActionTag="681695532" Tag="37" IconVisible="False" LeftMargin="952.6102" RightMargin="787.3898" TopMargin="219.0177" BottomMargin="660.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="150" Scale9Height="178" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
-            <Size X="180.0000" Y="200.0000" />
+          <AbstractNodeData Name="rich2" ActionTag="681695532" Tag="37" IconVisible="False" LeftMargin="530.6102" RightMargin="365.3898" TopMargin="-192.9823" BottomMargin="248.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1042.6102" Y="760.9823" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <Scale ScaleX="0.2000" ScaleY="0.2000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.5430" Y="0.7046" />
-            <PreSize X="0.0938" Y="0.1852" />
+            <PreSize X="0.5333" Y="0.9481" />
             <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Normal" Path="richer2.jpg" Plist="" />
-            <PressedFileData Type="Normal" Path="richer2.jpg" Plist="" />
-            <NormalFileData Type="Normal" Path="richer2.jpg" Plist="" />
+            <PressedFileData Type="Normal" Path="richer2.png" Plist="" />
+            <NormalFileData Type="Normal" Path="richer2.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="rich3" ActionTag="-1434525716" Tag="38" IconVisible="False" LeftMargin="1204.7563" RightMargin="535.2437" TopMargin="219.0177" BottomMargin="660.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="150" Scale9Height="178" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
-            <Size X="180.0000" Y="200.0000" />
+          <AbstractNodeData Name="rich3" ActionTag="-1434525716" Tag="38" IconVisible="False" LeftMargin="782.7563" RightMargin="113.2437" TopMargin="-192.9823" BottomMargin="248.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1294.7563" Y="760.9823" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <Scale ScaleX="0.2000" ScaleY="0.2000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.6744" Y="0.7046" />
-            <PreSize X="0.0938" Y="0.1852" />
+            <PreSize X="0.5333" Y="0.9481" />
             <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Normal" Path="richer3.jpg" Plist="" />
-            <PressedFileData Type="Normal" Path="richer3.jpg" Plist="" />
-            <NormalFileData Type="Normal" Path="richer3.jpg" Plist="" />
+            <PressedFileData Type="Normal" Path="richer3.png" Plist="" />
+            <NormalFileData Type="Normal" Path="richer3.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="rich4" ActionTag="-1105765233" Tag="39" IconVisible="False" LeftMargin="1472.7759" RightMargin="267.2241" TopMargin="219.0177" BottomMargin="660.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="150" Scale9Height="178" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
-            <Size X="180.0000" Y="200.0000" />
+          <AbstractNodeData Name="rich4" ActionTag="-1105765233" Tag="39" IconVisible="False" LeftMargin="1050.7759" RightMargin="-154.7759" TopMargin="-192.9823" BottomMargin="248.9823" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="46.0000" Y="36.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1562.7759" Y="760.9823" />
-            <Scale ScaleX="1.0000" ScaleY="1.0000" />
+            <Scale ScaleX="0.2000" ScaleY="0.2000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.8139" Y="0.7046" />
-            <PreSize X="0.0938" Y="0.1852" />
+            <PreSize X="0.5333" Y="0.9481" />
             <TextColor A="255" R="65" G="65" B="70" />
-            <DisabledFileData Type="Normal" Path="richer4.jpg" Plist="" />
-            <PressedFileData Type="Normal" Path="richer4.jpg" Plist="" />
-            <NormalFileData Type="Normal" Path="richer4.jpg" Plist="" />
+            <NormalFileData Type="Default" Path="Default/Button_Normal.png" Plist="" />
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
@@ -122,7 +117,7 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="richer3marked" ActionTag="690783448" Tag="42" IconVisible="False" LeftMargin="871.3816" RightMargin="24.6184" TopMargin="-292.1442" BottomMargin="348.1442" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+          <AbstractNodeData Name="richer3marked" ActionTag="690783448" Tag="42" IconVisible="False" LeftMargin="871.3816" RightMargin="24.6184" TopMargin="-292.1443" BottomMargin="348.1442" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1383.3816" Y="860.1442" />

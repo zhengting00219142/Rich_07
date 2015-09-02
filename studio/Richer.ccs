@@ -8,7 +8,6 @@
         <Project Name="GameScene.csd" Type="Scene" />
         <Project Name="PauseLayer.csd" Type="Layer" />
         <Project Name="GameOverLayer.csd" Type="Layer" />
-        <Image Name="55a3987969401b5c53a46c4f.jpg" />
         <Image Name="iconfont-fenxiangb-2.png" />
         <Image Name="iconfont-iconfontgongyichongwu-2.png" />
         <Image Name="iconfont-iconfontjiazhuangjiancai-3.png" />
@@ -17,10 +16,6 @@
         <Image Name="continue.png" />
         <Image Name="quit.png" />
         <Image Name="gameover.png" />
-        <Image Name="richer1.jpg" />
-        <Image Name="richer2.jpg" />
-        <Image Name="richer3.jpg" />
-        <Image Name="richer4.jpg" />
         <Image Name="touchBack.png" />
         <Image Name="chooseRicher.png" />
         <Image Name="iconfont-check.png" />
@@ -28,6 +23,15 @@
         <Image Name="iconfont-back.png" />
         <Image Name="iconfont-more.png" />
         <Image Name="bg.jpg" />
+        <Image Name="dice.png" />
+        <Image Name="richer1.png" />
+        <Image Name="richer2.png" />
+        <Image Name="richer3.png" />
+        <Image Name="robot.png" />
+        <Project Name="ToolsLayer.csd" Type="Layer" />
+        <Image Name="block.png" />
+        <Image Name="bomb.png" />
+        <Image Name="setting.png" />
       </RootFolder>
     </Group>
   </SolutionFolder>

@@ -1,5 +1,5 @@
 <GameProjectFile>
-  <PropertyGroup Type="Layer" Name="ToolsLayer" ID="c7e9de4d-e67f-4146-a596-c37390dfc3fd" Version="2.3.1.2" />
+  <PropertyGroup Type="Layer" Name="ToolsLayer" ID="c7e9de4d-e67f-4146-a596-c37390dfc3fd" Version="2.3.2.0" />
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
