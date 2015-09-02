@@ -4,5 +4,8 @@
 组长：张韩  
 commiter：朱小波、朱文轩
 
-文件夹说明：
-documents：用于存储项目文档和帮助文件。
+文件夹说明：  
+documents：用于存储项目文档和帮助文件    
+studio：界面有关文件  
+Classes：类  
+Resources：资源
