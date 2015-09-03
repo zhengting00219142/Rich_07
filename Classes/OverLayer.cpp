@@ -51,6 +51,10 @@ OverLayer::~OverLayer(){}
 
 bool OverLayer::onTouchBegan(Touch* touch, Event* event)
 {
-    CCDirector::getInstance()->replaceScene(StartLayer::createScene());
+    Point touchLoc = touch->getLocation();
+    if(Rect(0, 0, winSiz.width, winSiz.height).containsPoint(touchLoc)) {
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+        CCDirector::getInstance()->replaceScene(StartLayer::createScene());
+    }
     return true;
 }

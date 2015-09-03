@@ -16,7 +16,7 @@ public:
     Position *p;
     
     int type;
-    int worth;
+    int data;
     
     static LandSprite *create(const std::string& filename);
     LandSprite();

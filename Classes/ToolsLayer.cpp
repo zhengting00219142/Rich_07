@@ -20,11 +20,13 @@ ToolsLayer *ToolsLayer::create()
     auto rootNode = CSLoader::createNode("ToolsLayer.csb");
     ret->addChild(rootNode);
     
-    Button* pauseBtn = dynamic_cast<Button*>(rootNode->getChildByName("setting"));
-    pauseBtn->addTouchEventListener(CC_CALLBACK_2(ToolsLayer::pauseCallback, ret));
-    // tmp
-    Button* overBtn = dynamic_cast<Button*>(rootNode->getChildByName("richer3_1"));
-    overBtn->addTouchEventListener(CC_CALLBACK_2(ToolsLayer::overCallback, ret));
+    ret->pauseBtn = static_cast<Sprite*>( rootNode->getChildByTag(19) );
+    ret->avatarBtn = static_cast<Sprite*>( rootNode->getChildByTag(10) );
+//    Button* pauseBtn = dynamic_cast<Button*>(rootNode->getChildByName("setting"));
+//    pauseBtn->addTouchEventListener(CC_CALLBACK_2(ToolsLayer::pauseCallback, ret));
+//    // tmp
+//    Button* overBtn = dynamic_cast<Button*>(rootNode->getChildByName("richer3_1"));
+//    overBtn->addTouchEventListener(CC_CALLBACK_2(ToolsLayer::overCallback, ret));
     
     if (ret && ret->init())
     {
@@ -38,20 +40,42 @@ ToolsLayer *ToolsLayer::create()
     }
 }
 
-ToolsLayer::ToolsLayer(){}
-ToolsLayer::~ToolsLayer(){}
+ToolsLayer::ToolsLayer(){
+    auto eventDispatcher = Director::getInstance()->getEventDispatcher();
+    auto touchlistener = EventListenerTouchOneByOne::create();
+    touchlistener->setSwallowTouches(true);
+    touchlistener->onTouchBegan = CC_CALLBACK_2(ToolsLayer::onTouchBegan, this);
+    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 1);
+}
+ToolsLayer::~ToolsLayer(){
+}
 
-void ToolsLayer::pauseCallback(Ref* sender, Widget::TouchEventType type)
+bool ToolsLayer::onTouchBegan(Touch* touch, Event* event)
 {
-    if (type == Widget::TouchEventType::ENDED)
-    {
+    Point touchLoc = touch->getLocation();
+    Rect pauseBtnRec = pauseBtn->getBoundingBox();
+    if(pauseBtnRec.containsPoint(touchLoc)) {
         CCDirector::getInstance()->pushScene(PauseLayer::createScene());
     }
-}
-void ToolsLayer::overCallback(Ref* sender, Widget::TouchEventType type)
-{
-    if (type == Widget::TouchEventType::ENDED)
-    {
+    Rect avatarBtnRec = avatarBtn->getBoundingBox();
+    if(avatarBtnRec.containsPoint(touchLoc)) {
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(OverLayer::createScene());
     }
+    return true;
 }
+
+//void ToolsLayer::pauseCallback(Ref* sender, Widget::TouchEventType type)
+//{
+//    if (type == Widget::TouchEventType::ENDED)
+//    {
+//        CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+//    }
+//}
+//void ToolsLayer::overCallback(Ref* sender, Widget::TouchEventType type)
+//{
+//    if (type == Widget::TouchEventType::ENDED)
+//    {
+//        CCDirector::getInstance()->replaceScene(OverLayer::createScene());
+//    }
+//}

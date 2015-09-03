@@ -53,6 +53,7 @@ void PauseLayer::backCallback(Ref* sender, Widget::TouchEventType type)
 {
     if (type == Widget::TouchEventType::ENDED)
     {
+        Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
         CCDirector::getInstance()->popScene();
     }
 }
@@ -60,6 +61,7 @@ void PauseLayer::quitCallback(Ref* sender, Widget::TouchEventType type)
 {
     if (type == Widget::TouchEventType::ENDED)
     {
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(StartLayer::createScene());
     }
 }

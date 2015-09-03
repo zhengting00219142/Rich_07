@@ -15,14 +15,18 @@
 
 class ToolsLayer : public cocos2d::Layer
 {
+    Sprite *pauseBtn;
+    Sprite *avatarBtn;
 public:
     static ToolsLayer *create();
     ToolsLayer();
     ~ToolsLayer();
     
-    void pauseCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
-    // tmp
-    void overCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+//    EventListenerTouchOneByOne *touchlistener;
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+//    void pauseCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+//    // tmp
+//    void overCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
 };
 
 #endif /* defined(__Richer__ToolsLayer__) */

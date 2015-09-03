@@ -31,8 +31,11 @@ GameLayer *GameLayer::create(int pnum[4], int fund)
     GameLayer *ret = new (std::nothrow) GameLayer();
     
     // init players
-    for(int i = 0; i < 4 || pnum[i] != -1; i++) {
-        ret->playerSprites.pushBack(PlayerSprite::create(int2Avatar(pnum[i]), fund));
+    for(int i = 0; i < 4; i++) {
+        if(pnum[i] == -1) break;
+        PlayerSprite *player = PlayerSprite::create(int2Avatar(pnum[i]), fund);
+//        player->p = Position(<#int x#>, <#int y#>);
+        ret->playerSprites.pushBack(player);
     }
     
     if (ret && ret->init())
@@ -55,8 +58,3 @@ GameLayer::GameLayer()
     }
 }
 GameLayer::~GameLayer(){}
-
-void GameLayer::update(float dt)
-{
-    
-}

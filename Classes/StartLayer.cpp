@@ -47,6 +47,7 @@ void StartLayer::startCallback(Ref* sender, Widget::TouchEventType type)
 {
     if (type == Widget::TouchEventType::ENDED)
     {
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(InitLayer::createScene());
     }
 }

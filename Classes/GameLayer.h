@@ -24,8 +24,9 @@ public:
     GameLayer();
     ~GameLayer();
     
-    void update(float dt);
-    
+//    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+//    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+//    bool onTouchEnd(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 
 #endif /* defined(__Richer__GameLayer__) */
