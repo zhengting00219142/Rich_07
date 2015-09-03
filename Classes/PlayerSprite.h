@@ -20,7 +20,7 @@ public:
     int ticket;
     int status;
     int items[ITEM_KINDS];
-    Vector<LandSprite *> properties;
+    std::vector<LandSprite *> properties;
     
     static PlayerSprite *create(const std::string& filename, int fund);
     PlayerSprite();

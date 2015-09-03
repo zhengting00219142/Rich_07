@@ -14,7 +14,7 @@ float winMidY;
 float tileSiz;
 float margin;
 
-//Vector<int *> pnum;
+std::vector<int> pnum;
 int turn;
 int day;
 
@@ -41,7 +41,7 @@ std::string int2Avatar(int i) {
 }
 
 void resetGame() {
-//    pnum.clear();
+    pnum.clear();
     turn = 0;
     day = 0;
 }

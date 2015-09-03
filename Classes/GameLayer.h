@@ -18,7 +18,7 @@ class GameLayer : public cocos2d::Layer
 {
     float mapHeight, mapWidth;
     
-    Vector<PlayerSprite *> playerSprites;
+    std::vector<PlayerSprite *> playerSprites;
     
     
 public:

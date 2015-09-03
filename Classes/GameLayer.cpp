@@ -31,12 +31,12 @@ GameLayer *GameLayer::create(int fund)
     GameLayer *ret = new (std::nothrow) GameLayer();
     
     // init players
-//    for(int i = 0; i < pnum.size(); i++) {
-//        PlayerSprite *player = PlayerSprite::create(int2Avatar(*pnum.at(i)), fund);
-//        player->p = Position(0, MAP_ROW-1);
-//        ret->playerSprites.pushBack(player);
-//        ret->addChild(player, 2);
-//    }
+    for(int i = 0; i < pnum.size(); i++) {
+        PlayerSprite *player = PlayerSprite::create(int2Avatar(pnum[i]), fund);
+        player->p = Position(0, MAP_ROW-1);
+        ret->playerSprites.push_back(player);
+        ret->addChild(player, 2);
+    }
     
     if (ret && ret->init())
     {
@@ -56,21 +56,21 @@ GameLayer::GameLayer()
     mapWidth = MAP_COL * tileSiz + 2 * margin;
     mapHeight = MAP_ROW * tileSiz + 2 * margin;
     for(int i = 0, y = MAP_ROW-1; i < MAP_COL; i++) {
-        LandSprite *land;
+        LandSprite *land = NULL;
         if(i == 0) {
             land = LandSprite::create();
             land->setUp(LTYPE_NOTHING, 0, i, y);
         }
         else if(i == 14) {
-            land = LandSprite::create("");
+            land = LandSprite::create("bomb.png");
             land->setUp(LTYPE_HOSPITAL, 0, i, y);
         }
         else if(i == MAP_COL-1) {
-            land = LandSprite::create("");
+            land = LandSprite::create("bomb.png");
             land->setUp(LTYPE_SHOP, 0, i, y);
         }
         else {
-            land = LandSprite::create("");
+            land = LandSprite::create("bomb.png");
             land->setUp(LTYPE_UNOCCUPIED, 200, i, y);
         }
     }

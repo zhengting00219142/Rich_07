@@ -59,7 +59,7 @@ extern float tileSiz;
 extern float margin;
 
 // size: 2~4
-//extern Vector<int *> pnum;
+extern std::vector<int> pnum;
 extern int turn;
 extern int day;
 
