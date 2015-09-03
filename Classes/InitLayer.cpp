@@ -11,6 +11,7 @@
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+using namespace cocos2d::ui;
 
 Scene* InitLayer::createScene()
 {
@@ -24,6 +25,15 @@ Scene* InitLayer::createScene()
 InitLayer *InitLayer::create()
 {
     InitLayer *ret = new (std::nothrow) InitLayer();
+    
+    auto rootNode = CSLoader::createNode("SetScene.csb");
+    ret->addChild(rootNode);
+    
+    Button* playBtn = dynamic_cast<Button*>(rootNode->getChildByName("next"));
+    playBtn->addTouchEventListener(CC_CALLBACK_2(InitLayer::playCallback, ret));
+    Button* backBtn = dynamic_cast<Button*>(rootNode->getChildByName("back"));
+    backBtn->addTouchEventListener(CC_CALLBACK_2(InitLayer::backCallback, ret));
+    
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -38,3 +48,19 @@ InitLayer *InitLayer::create()
 
 InitLayer::InitLayer(){}
 InitLayer::~InitLayer(){}
+
+void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        int pnum[4] = {2, 1, 3, -1};
+        CCDirector::getInstance()->replaceScene(GameLayer::createScene(pnum, 10000));
+    }
+}
+void InitLayer::backCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        CCDirector::getInstance()->replaceScene(StartLayer::createScene());
+    }
+}

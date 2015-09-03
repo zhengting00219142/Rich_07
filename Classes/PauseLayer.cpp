@@ -11,6 +11,7 @@
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+using namespace cocos2d::ui;
 
 Scene* PauseLayer::createScene()
 {
@@ -24,6 +25,15 @@ Scene* PauseLayer::createScene()
 PauseLayer *PauseLayer::create()
 {
     PauseLayer *ret = new (std::nothrow) PauseLayer();
+    
+    auto rootNode = CSLoader::createNode("PauseLayer.csb");
+    ret->addChild(rootNode);
+    
+    Button* backBtn = dynamic_cast<Button*>(rootNode->getChildByName("Button_2"));
+    backBtn->addTouchEventListener(CC_CALLBACK_2(PauseLayer::backCallback, ret));
+    Button* quitBtn = dynamic_cast<Button*>(rootNode->getChildByName("quit"));
+    quitBtn->addTouchEventListener(CC_CALLBACK_2(PauseLayer::quitCallback, ret));
+    
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -38,3 +48,18 @@ PauseLayer *PauseLayer::create()
 
 PauseLayer::PauseLayer(){}
 PauseLayer::~PauseLayer(){}
+
+void PauseLayer::backCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        CCDirector::getInstance()->popScene();
+    }
+}
+void PauseLayer::quitCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        CCDirector::getInstance()->replaceScene(StartLayer::createScene());
+    }
+}

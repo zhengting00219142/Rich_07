@@ -24,6 +24,10 @@ Scene* OverLayer::createScene()
 OverLayer *OverLayer::create()
 {
     OverLayer *ret = new (std::nothrow) OverLayer();
+    
+    auto rootNode = CSLoader::createNode("GameOverLayer.csb");
+    ret->addChild(rootNode);
+
     if (ret && ret->init())
     {
         ret->autorelease();
@@ -36,5 +40,17 @@ OverLayer *OverLayer::create()
     }
 }
 
-OverLayer::OverLayer(){}
+OverLayer::OverLayer(){
+    auto eventDispatcher = Director::getInstance()->getEventDispatcher();
+    auto touchlistener = EventListenerTouchOneByOne::create();
+    touchlistener->setSwallowTouches(true);
+    touchlistener->onTouchBegan = CC_CALLBACK_2(OverLayer::onTouchBegan, this);
+    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 1);
+}
 OverLayer::~OverLayer(){}
+
+bool OverLayer::onTouchBegan(Touch* touch, Event* event)
+{
+    CCDirector::getInstance()->replaceScene(StartLayer::createScene());
+    return true;
+}

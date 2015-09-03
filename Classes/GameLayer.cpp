@@ -18,6 +18,8 @@ Scene* GameLayer::createScene(int pnum[4], int fund)
     auto layer = GameLayer::create(pnum, fund);
     scene->addChild(layer, 3);
     
+    auto toolsLayer = ToolsLayer::create();
+    scene->addChild(toolsLayer, 2);
 //    auto bg = ColorLayer::create();
 //    scene->cocos2d::Node::addChild(bg, 1);
     

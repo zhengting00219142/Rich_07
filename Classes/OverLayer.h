@@ -10,6 +10,7 @@
 #define __Richer__OverLayer__
 
 #include "Richer.h"
+#include "StartLayer.h"
 
 class OverLayer : public cocos2d::Layer
 {
@@ -18,6 +19,8 @@ public:
     static OverLayer *create();
     OverLayer();
     ~OverLayer();
+    
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 
 #endif /* defined(__Richer__OverLayer__) */

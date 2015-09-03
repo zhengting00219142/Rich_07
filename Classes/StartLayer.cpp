@@ -11,6 +11,7 @@
 USING_NS_CC;
 
 using namespace cocostudio::timeline;
+using namespace cocos2d::ui;
 
 Scene* StartLayer::createScene()
 {
@@ -26,7 +27,10 @@ StartLayer *StartLayer::create()
     StartLayer *ret = new (std::nothrow) StartLayer();
     
     auto rootNode = CSLoader::createNode("StartScene.csb");
-    ret->addChild(rootNode, 1);
+    ret->addChild(rootNode);
+    
+    Button* startBtn = dynamic_cast<Button*>(rootNode->getChildByName("begin"));
+    startBtn->addTouchEventListener(CC_CALLBACK_2(StartLayer::startCallback, ret));
     
     if (ret && ret->init())
     {
@@ -39,6 +43,12 @@ StartLayer *StartLayer::create()
         return nullptr;
     }
 }
-
+void StartLayer::startCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        CCDirector::getInstance()->replaceScene(InitLayer::createScene());
+    }
+}
 StartLayer::StartLayer(){}
 StartLayer::~StartLayer(){}

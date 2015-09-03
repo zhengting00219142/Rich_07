@@ -10,6 +10,7 @@
 #define __Richer__GameLayer__
 
 #include "Richer.h"
+#include "ToolsLayer.h"
 #include "PlayerSprite.h"
 #include "LandSprite.h"
 
