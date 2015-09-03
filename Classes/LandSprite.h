@@ -17,11 +17,13 @@ public:
     
     int type;
     int data;
+    int owner;
     
-    static LandSprite *create(const std::string& filename);
+    static LandSprite *create(int type);
     static LandSprite *create();
+    static std::string int2Img(int i);
     LandSprite();
-    void setUp(int type, int data, int x, int y);
+    void setUp(int data, int x, int y);
 };
 
 #endif /* defined(__Richer__LandSprite__) */
