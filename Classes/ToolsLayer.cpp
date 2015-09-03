@@ -21,6 +21,7 @@ ToolsLayer *ToolsLayer::create()
     ret->addChild(rootNode);
     
     ret->pauseBtn = static_cast<Sprite*>( rootNode->getChildByTag(19) );
+    ret->diceBtn = static_cast<Sprite*>( rootNode->getChildByTag(12) );
     ret->avatarBtn = static_cast<Sprite*>( rootNode->getChildByTag(10) );
 //    Button* pauseBtn = dynamic_cast<Button*>(rootNode->getChildByName("setting"));
 //    pauseBtn->addTouchEventListener(CC_CALLBACK_2(ToolsLayer::pauseCallback, ret));
