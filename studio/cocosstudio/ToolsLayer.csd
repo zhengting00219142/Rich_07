@@ -6,8 +6,8 @@
       <ObjectData Name="Layer" Tag="4" ctype="GameLayerObjectData">
         <Size X="1920.0000" Y="1080.0000" />
         <Children>
-          <AbstractNodeData Name="day" ActionTag="1967852702" Tag="5" IconVisible="False" LeftMargin="920.0090" RightMargin="909.9910" TopMargin="944.2979" BottomMargin="99.7021" FontSize="36" LabelText="第0天" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="90.0000" Y="36.0000" />
+          <AbstractNodeData Name="day" ActionTag="1967852702" Tag="5" IconVisible="False" LeftMargin="919.0090" RightMargin="908.9910" TopMargin="941.2979" BottomMargin="96.7021" FontSize="36" LabelText="第0天" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="92.0000" Y="42.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="965.0090" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
@@ -17,8 +17,8 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="ticket" ActionTag="684904937" Tag="7" IconVisible="False" LeftMargin="1261.3593" RightMargin="574.6407" TopMargin="950.2979" BottomMargin="105.7021" FontSize="24" LabelText="点数：0" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="84.0000" Y="24.0000" />
+          <AbstractNodeData Name="ticket" ActionTag="684904937" Tag="7" IconVisible="False" LeftMargin="1260.8593" RightMargin="574.1407" TopMargin="948.2979" BottomMargin="103.7021" FontSize="24" LabelText="点数：0" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="85.0000" Y="28.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1303.3593" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
@@ -28,8 +28,8 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="money" ActionTag="-1095716471" Tag="8" IconVisible="False" LeftMargin="563.1423" RightMargin="1272.8577" TopMargin="950.2979" BottomMargin="105.7021" FontSize="24" LabelText="金钱：0" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="84.0000" Y="24.0000" />
+          <AbstractNodeData Name="money" ActionTag="-1095716471" Tag="8" IconVisible="False" LeftMargin="562.6423" RightMargin="1272.3577" TopMargin="948.2979" BottomMargin="103.7021" FontSize="24" LabelText="金钱：0" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="85.0000" Y="28.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="605.1423" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
@@ -39,7 +39,7 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="richer3_1" ActionTag="1781216579" Tag="10" IconVisible="False" LeftMargin="-354.7747" RightMargin="1250.7747" TopMargin="450.2979" BottomMargin="-394.2979" ctype="SpriteObjectData">
+          <AbstractNodeData Name="role" ActionTag="1781216579" Tag="10" IconVisible="False" LeftMargin="-354.7747" RightMargin="1250.7747" TopMargin="450.2979" BottomMargin="-394.2979" ctype="SpriteObjectData">
             <Size X="1024.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="157.2253" Y="117.7021" />
@@ -106,8 +106,8 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="block_txt" ActionTag="1217859968" Tag="16" IconVisible="False" LeftMargin="1784.7020" RightMargin="99.2980" TopMargin="193.8049" BottomMargin="850.1951" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="36.0000" Y="36.0000" />
+          <AbstractNodeData Name="block_txt" ActionTag="1217859968" Tag="16" IconVisible="False" LeftMargin="1783.7020" RightMargin="98.2980" TopMargin="190.8049" BottomMargin="847.1951" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="38.0000" Y="42.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="868.1951" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
@@ -117,8 +117,8 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="bomb_txt" ActionTag="990547849" Tag="17" IconVisible="False" LeftMargin="1784.7020" RightMargin="99.2980" TopMargin="379.2123" BottomMargin="664.7877" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="36.0000" Y="36.0000" />
+          <AbstractNodeData Name="bomb_txt" ActionTag="990547849" Tag="17" IconVisible="False" LeftMargin="1783.7020" RightMargin="98.2980" TopMargin="376.2123" BottomMargin="661.7877" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="38.0000" Y="42.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="682.7877" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
@@ -128,8 +128,8 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="robot_txt" ActionTag="223333160" Tag="18" IconVisible="False" LeftMargin="1784.7020" RightMargin="99.2980" TopMargin="584.8586" BottomMargin="459.1414" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
-            <Size X="36.0000" Y="36.0000" />
+          <AbstractNodeData Name="robot_txt" ActionTag="223333160" Tag="18" IconVisible="False" LeftMargin="1783.7020" RightMargin="98.2980" TopMargin="581.8586" BottomMargin="456.1414" FontSize="36" LabelText="x0" HorizontalAlignmentType="HT_Center" VerticalAlignmentType="VT_Center" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="TextObjectData">
+            <Size X="38.0000" Y="42.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="477.1414" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
