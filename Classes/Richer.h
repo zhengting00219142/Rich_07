@@ -82,6 +82,5 @@ extern int day;
 int rollDice();
 
 void initWinSiz();
-std::string int2Avatar(int i);
 void resetGame();
 #endif

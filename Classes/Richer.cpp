@@ -63,16 +63,6 @@ cocos2d::Vec2 Position::toRealPos() {
     return cocos2d::Vec2(x*tileSiz + offsetX, y*tileSiz + offsetY);
 }
 
-std::string int2Avatar(int i) {
-    switch (i) {
-        case 1: return "richer1.png";
-        case 2: return "richer2.png";
-        case 3: return "richer3.png";
-        case 4: return "richer4.png";
-        default: return "richer4.png";
-    }
-}
-
 void resetGame() {
     pnum.clear();
     turn = 0;
