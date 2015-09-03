@@ -13,13 +13,15 @@
 
 class LandSprite : public cocos2d::Sprite{
 public:
-    Position *p;
+    Position p;
     
     int type;
     int data;
     
     static LandSprite *create(const std::string& filename);
+    static LandSprite *create();
     LandSprite();
+    void setUp(int type, int data, int x, int y);
 };
 
 #endif /* defined(__Richer__LandSprite__) */

@@ -17,6 +17,7 @@ class ToolsLayer : public cocos2d::Layer
 {
     Sprite *pauseBtn;
     Sprite *avatarBtn;
+    Sprite *diceBtn;
 public:
     static ToolsLayer *create();
     ToolsLayer();

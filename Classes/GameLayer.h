@@ -16,17 +16,20 @@
 
 class GameLayer : public cocos2d::Layer
 {
+    float mapHeight, mapWidth;
+    
     Vector<PlayerSprite *> playerSprites;
     
+    
 public:
-    static cocos2d::Scene* createScene(int pnum[4], int fund = 10000);
-    static GameLayer *create(int pnum[4], int fund = 10000);
+    static cocos2d::Scene* createScene(int fund = 10000);
+    static GameLayer *create(int fund = 10000);
     GameLayer();
     ~GameLayer();
     
-//    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-//    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-//    bool onTouchEnd(cocos2d::Touch* touch, cocos2d::Event* event);
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+    bool onTouchEnd(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 
 #endif /* defined(__Richer__GameLayer__) */

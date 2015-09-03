@@ -57,6 +57,10 @@ bool ToolsLayer::onTouchBegan(Touch* touch, Event* event)
     if(pauseBtnRec.containsPoint(touchLoc)) {
         CCDirector::getInstance()->pushScene(PauseLayer::createScene());
     }
+    Rect diceBtnRec = diceBtn->getBoundingBox();
+    if(diceBtnRec.containsPoint(touchLoc)) {
+        // roll dice...
+    }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();

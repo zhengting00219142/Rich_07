@@ -12,10 +12,10 @@ USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
-Scene* GameLayer::createScene(int pnum[4], int fund)
+Scene* GameLayer::createScene(int fund)
 {
     auto scene = Scene::create();
-    auto layer = GameLayer::create(pnum, fund);
+    auto layer = GameLayer::create(fund);
     scene->addChild(layer, 3);
     
     auto toolsLayer = ToolsLayer::create();
@@ -26,17 +26,17 @@ Scene* GameLayer::createScene(int pnum[4], int fund)
     return scene;
 }
 
-GameLayer *GameLayer::create(int pnum[4], int fund)
+GameLayer *GameLayer::create(int fund)
 {
     GameLayer *ret = new (std::nothrow) GameLayer();
     
     // init players
-    for(int i = 0; i < 4; i++) {
-        if(pnum[i] == -1) break;
-        PlayerSprite *player = PlayerSprite::create(int2Avatar(pnum[i]), fund);
-//        player->p = Position(<#int x#>, <#int y#>);
-        ret->playerSprites.pushBack(player);
-    }
+//    for(int i = 0; i < pnum.size(); i++) {
+//        PlayerSprite *player = PlayerSprite::create(int2Avatar(*pnum.at(i)), fund);
+//        player->p = Position(0, MAP_ROW-1);
+//        ret->playerSprites.pushBack(player);
+//        ret->addChild(player, 2);
+//    }
     
     if (ret && ret->init())
     {
@@ -53,8 +53,33 @@ GameLayer *GameLayer::create(int pnum[4], int fund)
 GameLayer::GameLayer()
 {
     // init lands
-    for(int i = 0; i < MAP_COL; i++) {
-        
+    mapWidth = MAP_COL * tileSiz + 2 * margin;
+    mapHeight = MAP_ROW * tileSiz + 2 * margin;
+    for(int i = 0, y = MAP_ROW-1; i < MAP_COL; i++) {
+        LandSprite *land;
+        if(i == 0) {
+            land = LandSprite::create();
+            land->setUp(LTYPE_NOTHING, 0, i, y);
+        }
+        else if(i == 14) {
+            land = LandSprite::create("");
+            land->setUp(LTYPE_HOSPITAL, 0, i, y);
+        }
+        else if(i == MAP_COL-1) {
+            land = LandSprite::create("");
+            land->setUp(LTYPE_SHOP, 0, i, y);
+        }
+        else {
+            land = LandSprite::create("");
+            land->setUp(LTYPE_UNOCCUPIED, 200, i, y);
+        }
     }
 }
 GameLayer::~GameLayer(){}
+
+bool GameLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
+    
+}
+void GameLayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event){}
+bool GameLayer::onTouchEnd(cocos2d::Touch *touch, cocos2d::Event *event){}
+

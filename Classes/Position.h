@@ -15,6 +15,7 @@ class Position {
 public:
     int x, y;
     
+    Position();
     Position(int x, int y);
     void setPosition(int x, int y);
     bool isEqual(Position other);

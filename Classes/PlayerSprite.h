@@ -14,7 +14,7 @@
 
 class PlayerSprite : public cocos2d::Sprite{
 public:
-    Position *p;
+    Position p;
     
     int cash;
     int ticket;

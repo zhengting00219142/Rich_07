@@ -32,27 +32,34 @@
 #define ITEM_KINDS 3
 
 // land type
-#define UNOCCUPIED 0
-#define LV1 1
-#define LV2 2
-#define MAXLV 3
-#define SHOP 4
-#define GIFT 5
-#define MAGIC 6
-#define HOSPITAL 7
-#define PRISON 8
-#define MINE 9
+#define LTYPE_UNOCCUPIED 0
+#define LTYPE_LV1 1
+#define LTYPE_LV2 2
+#define LTYPE_MAXLV 3
+#define LTYPE_SHOP 4
+#define LTYPE_GIFT 5
+#define LTYPE_MAGIC 6
+#define LTYPE_HOSPITAL 7
+#define LTYPE_PRISON 8
+#define LTYPE_MINE 9
+#define LTYPE_NOTHING 10
 
+// 1/4 of screen width = tile width = tile height
 #define TILE_SIZE 4
+// 1/16 of screen width = map's margin
+#define MAP_MARGIN 16
 
-#define MAP_COL 28
+#define MAP_COL 29
 #define MAP_ROW 8
 
 extern cocos2d::Size winSiz;
 extern float winMidX;
 extern float winMidY;
 extern float tileSiz;
+extern float margin;
 
+// size: 2~4
+//extern Vector<int *> pnum;
 extern int turn;
 extern int day;
 
@@ -60,4 +67,5 @@ int rollDice();
 
 void initWinSiz();
 std::string int2Avatar(int i);
+void resetGame();
 #endif
