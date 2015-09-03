@@ -25,7 +25,6 @@ public:
     std::vector<LandSprite *> properties;
     
     static PlayerSprite *create(int code, int fund);
-    static std::string int2Avatar(int i);
     PlayerSprite();
     
     void move2Spot(Position dst);

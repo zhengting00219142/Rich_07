@@ -22,6 +22,14 @@ std::vector<int> pnum;
 int turn;
 int day;
 
+std::string pavatar[5] = {"", "richer1.png", "richer2.png", "richer3.png", "richer4.png"};
+std::string houseImg[5][4] = {
+    {"", "", "", ""},
+    {"", "home1_1.png", "home1_2.png", "home1_3.png"},
+    {"", "home2_1.png", "home2_2.png", "home2_3.png"},
+    {"", "home3_1.png", "home3_2.png", "home3_3.png"},
+    {"", "home4_1.png", "home4_2.png", "home4_3.png"}};
+
 int rollDice() {
     return rand() % 6 + 1;
 }
