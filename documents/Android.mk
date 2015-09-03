@@ -18,7 +18,14 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/StartLayer.cpp \
                    ../../Classes/initLayer.cpp \
-                   ../../Classes/Richer.cpp
+                   ../../Classes/Richer.cpp \
+                   ../../Classes/GameLayer.cpp \
+                   ../../Classes/LandSprite.cpp \
+                   ../../Classes/OverLayer.cpp \
+                   ../../Classes/PauseLayer.cpp \
+                   ../../Classes/PlayerSprite.cpp \
+                   ../../Classes/Position.cpp \
+                   ../../Classes/ToolsLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
