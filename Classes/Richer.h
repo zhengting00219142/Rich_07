@@ -15,8 +15,6 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
-#include "Position.h"
-
 // player status
 #define STATUS_BROKE -1
 #define STATUS_NORM 0
@@ -44,10 +42,11 @@
 #define LTYPE_MINE 9
 #define LTYPE_NOTHING 10
 
-// 1/4 of screen width = tile width = tile height
-#define TILE_SIZE 4
-// 1/16 of screen width = map's margin
-#define MAP_MARGIN 16
+#define RES_SIZE 1024
+// 1/4 of screen height = tile width = tile height
+#define PORTION_TILE_SIZE 4
+// 1/16 of screen height = map's margin
+#define PORTION_MAP_MARGIN 16
 
 #define MAP_COL 29
 #define MAP_ROW 8
@@ -56,7 +55,22 @@ extern cocos2d::Size winSiz;
 extern float winMidX;
 extern float winMidY;
 extern float tileSiz;
+extern float tileScale;
 extern float margin;
+extern float offsetX;
+extern float offsetY;
+extern float mapHeight, mapWidth;
+
+class Position {
+public:
+    int x, y;
+    
+    Position();
+    Position(int x, int y);
+    void setPosition(int x, int y);
+    bool isEqual(Position other);
+    cocos2d::Vec2 toRealPos();
+};
 
 // size: 2~4
 extern std::vector<int> pnum;

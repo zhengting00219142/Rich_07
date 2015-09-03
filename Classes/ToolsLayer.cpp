@@ -57,6 +57,7 @@ bool ToolsLayer::onTouchBegan(Touch* touch, Event* event)
     Rect pauseBtnRec = pauseBtn->getBoundingBox();
     if(pauseBtnRec.containsPoint(touchLoc)) {
         CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+        return true;
     }
     Rect diceBtnRec = diceBtn->getBoundingBox();
     if(diceBtnRec.containsPoint(touchLoc)) {
@@ -66,8 +67,9 @@ bool ToolsLayer::onTouchBegan(Touch* touch, Event* event)
     if(avatarBtnRec.containsPoint(touchLoc)) {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(OverLayer::createScene());
+        return true;
     }
-    return true;
+    return false;
 }
 
 //void ToolsLayer::pauseCallback(Ref* sender, Widget::TouchEventType type)

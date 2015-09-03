@@ -19,6 +19,7 @@ PlayerSprite* PlayerSprite::create(const std::string& filename, int fund)
     for(int i = 0; i < ITEM_KINDS; i++) {
         sprite->items[i] = 0;
     }
+    sprite->setScale(tileScale);
     
     if (sprite && sprite->initWithFile(filename))
     {

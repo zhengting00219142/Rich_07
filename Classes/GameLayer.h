@@ -16,12 +16,9 @@
 
 class GameLayer : public cocos2d::Layer
 {
-    float mapHeight, mapWidth;
-    
     std::vector<PlayerSprite *> playerSprites;
-    
-    
 public:
+    
     static cocos2d::Scene* createScene(int fund = 10000);
     static GameLayer *create(int fund = 10000);
     GameLayer();

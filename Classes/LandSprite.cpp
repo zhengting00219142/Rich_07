@@ -38,4 +38,5 @@ void LandSprite::setUp(int type, int data, int x, int y) {
     this->type = type;
     this->data = data;
     this->p = Position(x, y);
+    this->setScale(tileScale);
 }
