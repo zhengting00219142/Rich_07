@@ -56,8 +56,10 @@ GameLayer::GameLayer()
     auto eventDispatcher = Director::getInstance()->getEventDispatcher();
     auto touchlistener = EventListenerTouchOneByOne::create();
     touchlistener->setSwallowTouches(true);
-    touchlistener->onTouchBegan = CC_CALLBACK_2(GameLayer::onTouchBegan, this);
-    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 1);
+    touchlistener->onTouchBegan = CC_CALLBACK_2(GameLayer::touchBegan, this);
+    touchlistener->onTouchMoved = CC_CALLBACK_2(GameLayer::touchMoved, this);
+    touchlistener->onTouchEnded = CC_CALLBACK_2(GameLayer::touchEnded, this);
+    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 2);
     
     // init lands
     for(int i = 0, y = MAP_ROW-1; i < MAP_COL; i++) {
@@ -118,9 +120,33 @@ GameLayer::GameLayer()
 }
 GameLayer::~GameLayer(){}
 
-bool GameLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
-    log("x: %f, y: %f", touch->getLocation().x, touch->getLocation().y);
+bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
+    Point touchLoc = touch->getLocation();
+    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
+    prvTouchLoc = touchLoc;
+    return true;
 }
-void GameLayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event){}
-bool GameLayer::onTouchEnd(cocos2d::Touch *touch, cocos2d::Event *event){}
+void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
+    Point touchLoc = touch->getLocation();
+    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
+    Vec2 difference(touchLoc.x - prvTouchLoc.x, touchLoc.y - prvTouchLoc.y);
+    Vec2 currentPos = this->getPosition();
+    log("b***\nc(%f, %f)", currentPos.x, currentPos.y);
+    log("d(%f, %f)", difference.x, difference.y);
+    log("c+d(%f, %f)", currentPos.x + difference.x, currentPos.y + difference.y);
+    if(currentPos.x + difference.x > 0 || currentPos.x + difference.x < winSiz.width - mapWidth)
+        difference.x = 0;
+    if(currentPos.y + difference.y < 0 || currentPos.y + difference.y > mapHeight - winSiz.height)
+        difference.y = 0;
+    log("e***\nc(%f, %f)", currentPos.x, currentPos.y);
+    log("d(%f, %f)", difference.x, difference.y);
+    log("c+d(%f, %f)", currentPos.x + difference.x, currentPos.y + difference.y);
+    this->setPosition(currentPos + difference);
+//    this->runAction(MoveBy::create(1/60.0, difference));
+    prvTouchLoc = touchLoc;
+}
+void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
+    Point touchLoc = touch->getLocation();
+    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
+}
 

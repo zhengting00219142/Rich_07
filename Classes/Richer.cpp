@@ -38,8 +38,8 @@ void initWinSiz() {
     // position.y * tileSiz + offsetY = real position.y
     offsetY = winSiz.height - margin - (MAP_ROW-0.5)*tileSiz;
     
-    mapWidth = MAP_COL * tileSiz + 2 * margin;
-    mapHeight = MAP_ROW * tileSiz + 2 * margin;
+    mapWidth = MAP_COL * tileSiz + 2 * margin + winSiz.width/PORTION_MAP_RIGHT_MARGIN;
+    mapHeight = MAP_ROW * tileSiz + 2 * margin + winSiz.height/PORTION_MAP_BOTTOM_MARGIN;
 }
 
 Position::Position() {

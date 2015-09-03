@@ -17,6 +17,8 @@
 class GameLayer : public cocos2d::Layer
 {
     std::vector<PlayerSprite *> playerSprites;
+
+    Point prvTouchLoc;
 public:
     
     static cocos2d::Scene* createScene(int fund = 10000);
@@ -24,9 +26,9 @@ public:
     GameLayer();
     ~GameLayer();
     
-    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
-    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
-    bool onTouchEnd(cocos2d::Touch* touch, cocos2d::Event* event);
+    bool touchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+    void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+    void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 
 #endif /* defined(__Richer__GameLayer__) */

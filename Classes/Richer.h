@@ -47,6 +47,8 @@
 #define PORTION_TILE_SIZE 4
 // 1/16 of screen height = map's margin
 #define PORTION_MAP_MARGIN 16
+#define PORTION_MAP_RIGHT_MARGIN 12
+#define PORTION_MAP_BOTTOM_MARGIN 9
 
 #define MAP_COL 29
 #define MAP_ROW 8
