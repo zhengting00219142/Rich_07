@@ -79,6 +79,9 @@ extern std::vector<int> pnum;
 extern int turn;
 extern int day;
 
+extern std::string pavatar[5];
+extern std::string houseImg[5][4];
+
 int rollDice();
 
 void initWinSiz();

@@ -12,7 +12,7 @@ LandSprite* LandSprite::create(int type)
 {
     LandSprite *sprite = new (std::nothrow) LandSprite();
     sprite->type = type;
-    if (sprite && sprite->initWithFile(int2Img(type)))
+    if (sprite && sprite->initWithFile(sprite->int2Img(type)))
     {
         sprite->autorelease();
         return sprite;
@@ -36,18 +36,14 @@ LandSprite* LandSprite::create()
 
 std::string LandSprite::int2Img(int i) {
     switch (i) {
-        case LTYPE_UNOCCUPIED: return "bomb.png";
-        case LTYPE_SHOP: return "richer2.png";
-        case LTYPE_GIFT: return "richer3.png";
-        case LTYPE_MAGIC: return "richer4.png";
-        case LTYPE_HOSPITAL: return "richer4.png";
-        case LTYPE_PRISON: return "richer4.png";
-        case LTYPE_MINE: return "richer4.png";
-//        case LTYPE_NOTHING: return "richer4.png";
-        case LTYPE_LV1: return "richer4.png";
-        case LTYPE_LV2: return "richer4.png";
-        case LTYPE_MAXLV: return "richer4.png";
-        default: return "richer4.png";
+        case LTYPE_UNOCCUPIED: return "unoccupied.png";
+        case LTYPE_SHOP: return "shop.png";
+        case LTYPE_GIFT: return "gift.png";
+        case LTYPE_MAGIC: return "magic.png";
+        case LTYPE_HOSPITAL: return "hospital.png";
+        case LTYPE_PRISON: return "prison.png";
+        case LTYPE_MINE: return "mine.png";
+        default: return "robot.png";
     }
 }
 
@@ -57,4 +53,8 @@ void LandSprite::setUp(int data, int x, int y) {
     this->data = data;
     this->p = Position(x, y);
     this->setScale(tileScale);
+}
+
+void LandSprite::levelUp() {
+    
 }

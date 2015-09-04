@@ -21,9 +21,11 @@ public:
     
     static LandSprite *create(int type);
     static LandSprite *create();
-    static std::string int2Img(int i);
+    std::string int2Img(int i);
     LandSprite();
     void setUp(int data, int x, int y);
+    
+    void levelUp();
 };
 
 #endif /* defined(__Richer__LandSprite__) */
