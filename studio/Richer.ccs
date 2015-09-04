@@ -33,6 +33,8 @@
         <Image Name="setting.png" />
         <Project Name="BgLayer.csd" Type="Layer" />
         <Image Name="richer4.png" />
+        <Project Name="AboutScene.csd" Type="Scene" />
+        <Image Name="about.png" />
       </RootFolder>
     </Group>
   </SolutionFolder>
