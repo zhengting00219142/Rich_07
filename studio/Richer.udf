@@ -21,22 +21,11 @@
         <RunPlatform Value="None" />
         <FrameworkVersion Value="cocos2d-x-3.7.1" />
         <IsDebugKeystore Value="True" />
+        <KeystorePassword Value="" />
+        <KeystoreAliasName Value="" />
+        <KeystoreAliasPassword Value="" />
         <EnableSourceMap Value="False" />
         <EnableHTML5Advanced Value="False" />
-      </Value>
-    </Item>
-    <Item Key="TabsParamsKey">
-      <Value ctype="TabsInfo">
-        <OpenedDocuments>
-          <FilePathData Path="PauseLayer.csd" />
-          <FilePathData Path="GameOverLayer.csd" />
-          <FilePathData Path="ToolsLayer.csd" />
-          <FilePathData Path="BgLayer.csd" />
-          <FilePathData Path="SetScene.csd" />
-          <FilePathData Path="StartScene.csd" />
-          <FilePathData Path="AboutScene.csd" />
-        </OpenedDocuments>
-        <ActiveDocument Path="StartScene.csd" />
       </Value>
     </Item>
   </Properties>

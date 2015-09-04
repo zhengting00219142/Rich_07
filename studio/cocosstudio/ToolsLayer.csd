@@ -11,7 +11,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="965.0090" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.5026" Y="0.1090" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
@@ -22,7 +22,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1303.3593" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.6788" Y="0.1090" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
@@ -33,7 +33,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="605.1423" Y="117.7021" />
             <Scale ScaleX="2.3190" ScaleY="2.0669" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.3152" Y="0.1090" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
@@ -91,14 +91,14 @@
             <OutlineColor A="255" R="255" G="0" B="0" />
             <ShadowColor A="255" R="110" G="110" B="110" />
           </AbstractNodeData>
-          <AbstractNodeData Name="robot" ActionTag="-44844373" Tag="15" IconVisible="False" LeftMargin="1290.7020" RightMargin="-394.7021" TopMargin="-5.4603" BottomMargin="61.4603" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="994" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
-            <Size X="1024.0000" Y="1024.0000" />
+          <AbstractNodeData Name="robot" ActionTag="-44844373" Tag="15" IconVisible="False" LeftMargin="1302.7020" RightMargin="-382.7021" TopMargin="-5.4603" BottomMargin="61.4603" TouchEnable="True" FontSize="14" ButtonText="Button" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="970" Scale9Height="1002" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
+            <Size X="1000.0000" Y="1024.0000" />
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="573.4603" />
             <Scale ScaleX="0.1000" ScaleY="0.1000" />
             <CColor A="255" R="255" G="255" B="255" />
             <PrePosition X="0.9389" Y="0.5310" />
-            <PreSize X="0.5333" Y="0.9481" />
+            <PreSize X="0.5208" Y="0.9481" />
             <TextColor A="255" R="65" G="65" B="70" />
             <DisabledFileData Type="Normal" Path="robot.png" Plist="" />
             <PressedFileData Type="Normal" Path="robot.png" Plist="" />
@@ -111,7 +111,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="868.1951" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.9389" Y="0.8039" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
@@ -122,7 +122,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="682.7877" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.9389" Y="0.6322" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
@@ -133,7 +133,7 @@
             <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
             <Position X="1802.7020" Y="477.1414" />
             <Scale ScaleX="1.9628" ScaleY="1.6419" />
-            <CColor A="255" R="255" G="255" B="255" />
+            <CColor A="255" R="17" G="205" B="110" />
             <PrePosition X="0.9389" Y="0.4418" />
             <PreSize X="0.0000" Y="0.0000" />
             <OutlineColor A="255" R="255" G="0" B="0" />
