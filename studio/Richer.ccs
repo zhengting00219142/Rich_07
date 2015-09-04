@@ -35,6 +35,9 @@
         <Image Name="richer4.png" />
         <Project Name="AboutScene.csd" Type="Scene" />
         <Image Name="about.png" />
+        <Project Name="ShopLayer.csd" Type="Layer" />
+        <Image Name="cancel.png" />
+        <Image Name="makesure.png" />
       </RootFolder>
     </Group>
   </SolutionFolder>
