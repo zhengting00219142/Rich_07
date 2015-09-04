@@ -7,6 +7,7 @@
 //
 
 #include "PauseLayer.h"
+#include "StartLayer.h"
 
 USING_NS_CC;
 

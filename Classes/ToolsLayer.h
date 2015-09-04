@@ -10,8 +10,6 @@
 #define __Richer__ToolsLayer__
 
 #include "Richer.h"
-#include "PauseLayer.h"
-#include "OverLayer.h"
 
 class ToolsLayer : public cocos2d::Layer
 {

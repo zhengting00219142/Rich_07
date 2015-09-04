@@ -10,7 +10,6 @@
 #define __Richer__OverLayer__
 
 #include "Richer.h"
-#include "StartLayer.h"
 
 class OverLayer : public cocos2d::Layer
 {

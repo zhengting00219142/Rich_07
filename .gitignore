@@ -4,6 +4,10 @@ Rich.ccs
 Rich.udf
 cocosstudio
 .DS_Store
+Classes/.DS_Store
+documents/.DS_Store
+studio/.DS_Store
+studio/cocosstudio/.DS_Store
 proj.*
 cocos2d
 CMakeLists.txt

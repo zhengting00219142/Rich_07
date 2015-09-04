@@ -15,21 +15,26 @@ using namespace cocostudio::timeline;
 Scene* GameLayer::createScene(int fund)
 {
     auto scene = Scene::create();
-    auto layer = GameLayer::create(fund);
-    scene->addChild(layer, 2);
+    
+    auto bgLayer = Layer::create();
+    auto rootNode = CSLoader::createNode("BgLayer.csb");
+    bgLayer->addChild(rootNode);
+    scene->addChild(bgLayer, 1);
     
     auto toolsLayer = ToolsLayer::create();
     scene->addChild(toolsLayer, 3);
-//    auto bg = ColorLayer::create();
-//    scene->cocos2d::Node::addChild(bg, 1);
+    
+    auto layer = GameLayer::create(toolsLayer, fund);
+    scene->addChild(layer, 2);
     
     return scene;
 }
 
-GameLayer *GameLayer::create(int fund)
+GameLayer *GameLayer::create(ToolsLayer *tl, int fund)
 {
     GameLayer *ret = new (std::nothrow) GameLayer();
     
+    ret->toolsLayer = tl;
     // init players
     for(int i = 0; i < pnum.size(); i++) {
         PlayerSprite *player = PlayerSprite::create(pnum[i], fund);
@@ -60,6 +65,12 @@ void GameLayer::initTouchListener() {
     touchlistener->onTouchEnded = CC_CALLBACK_2(GameLayer::touchEnded, this);
     eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 2);
 }
+void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
+    land->setUp(streetVal, p);
+    this->LandSprites.pushFromTail(land);
+    this->addChild(land, 3);
+}
+
 void GameLayer::initMap() {
     // land type[]
     int lt[MAP_COL];
@@ -67,39 +78,33 @@ void GameLayer::initMap() {
         lt[i] = LTYPE_UNOCCUPIED;
     }
     lt[14]=LTYPE_HOSPITAL; lt[MAP_COL-1]=LTYPE_SHOP;
-    
     LandSprite *land = LandSprite::create();
-    land->setUp(0, 0, MAP_ROW-1);
-    this->addChild(land, 3);
-    
+    initLandSprite(land, 0, Position(0, MAP_ROW-1));
     for(int i = 1, y = MAP_ROW-1; i < MAP_COL; i++) {
         LandSprite *land = LandSprite::create(lt[i]);
-        land->setUp(200, i, y);
-        this->addChild(land, 3);
+        initLandSprite(land, 200, Position(i, y));
+    }
+    
+    for(int x = MAP_COL-1, j = MAP_ROW-2; j > 0; j--) {
+        LandSprite *land = LandSprite::create(LTYPE_UNOCCUPIED);
+        initLandSprite(land, 500, Position(x, j));
     }
     
     for(int i = 0; i < MAP_COL; i++) {
         lt[i] = LTYPE_UNOCCUPIED;
     }
     lt[0] = LTYPE_MAGIC; lt[14]=LTYPE_PRISON; lt[MAP_COL-1]=LTYPE_GIFT;
-    for(int i = 0, y = 0; i < MAP_COL; i++) {
+    for(int i = MAP_COL-1, y = 0; i > -1; i--) {
         LandSprite *land = LandSprite::create(lt[i]);
-        land->setUp(300, i, y);
-        this->addChild(land, 3);
+        initLandSprite(land, 300, Position(i, y));
     }
-    for(int j = 1, x = MAP_COL-1; j < MAP_ROW-1; j++) {
-        LandSprite *land = LandSprite::create(LTYPE_UNOCCUPIED);
-        land->setUp(500, x, j);
-        this->addChild(land, 3);
-    }
+    
     int ld[MAP_ROW] = {0, 20, 80, 100, 40, 80, 60, 0};
-    for(int j = 1, x = 0; j < MAP_ROW-1; j++) {
+    for(int x = 0, j = 1; j < MAP_ROW-1; j++) {
         LandSprite *land = LandSprite::create(LTYPE_MINE);
-        land->setUp(0, x, j);
         land->data = ld[j];
-        this->addChild(land, 3);
+        initLandSprite(land, 0, Position(x, j));
     }
-
 }
 
 GameLayer::GameLayer()

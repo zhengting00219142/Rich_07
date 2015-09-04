@@ -7,6 +7,8 @@
 //
 
 #include "ToolsLayer.h"
+#include "PauseLayer.h"
+#include "OverLayer.h"
 
 USING_NS_CC;
 

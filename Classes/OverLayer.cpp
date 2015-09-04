@@ -7,6 +7,7 @@
 //
 
 #include "OverLayer.h"
+#include "StartLayer.h"
 
 USING_NS_CC;
 

@@ -10,7 +10,6 @@
 #define __Richer__PauseLayer__
 
 #include "Richer.h"
-#include "StartLayer.h"
 
 class PauseLayer : public cocos2d::Layer
 {

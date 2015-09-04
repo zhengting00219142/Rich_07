@@ -7,6 +7,8 @@
 //
 
 #include "StartLayer.h"
+#include "InitLayer.h"
+#include "AboutLayer.h"
 
 USING_NS_CC;
 

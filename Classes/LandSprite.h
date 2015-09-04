@@ -24,7 +24,7 @@ public:
     static LandSprite *create();
     LandSprite();
     std::string int2Img(int i);
-    void setUp(int streetVal, int x, int y);
+    void setUp(int streetVal, Position p);
     
     void levelUp();
 };

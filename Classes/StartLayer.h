@@ -10,8 +10,6 @@
 #define __Richer__StartLayer__
 
 #include "Richer.h"
-#include "InitLayer.h"
-#include "AboutLayer.h"
 
 class StartLayer : public cocos2d::Layer
 {
