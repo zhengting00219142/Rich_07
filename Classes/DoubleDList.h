@@ -87,7 +87,8 @@ public:
 
 		/**
 		* Function: hasNextForUp
-		* Description: when we always move front then this method will check whether 从起始点向前滑动一圈。
+		* Description: when we always move front then this method will check whether we have move back from the beginning
+		* point for one circle.
 		* Return:
 			true
 			false
@@ -98,7 +99,8 @@ public:
 
 		/**
 		* Function: hasNextForBack
-		* Description: when we always move back then this method will check whether 从起始点向后滑动一圈。
+		* Description: when we always move back then this method will check whether we have move up from beginning point
+		* for one circle.
 		* Return:
 			true
 			false
@@ -413,7 +415,7 @@ public:
 	}
 
 	/**
-	* Function: printList
+	* Function: printList just for test.
 	* Description: print list like [ele1 , ele2 , ele3 , ... elen , ] , [elen , elen-1 , ... , ele3 , ele2 , ele1]
 	* Return:
 	*/

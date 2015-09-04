@@ -60,7 +60,7 @@ int main() {
 	cout << "tail : " << list.popFromTail() << endl;
 	list.printList();
 
-	// ÈçºÎ±éÀú¡£
+	// iterator the list.
 	cout << "ite : [";
 	DoubleDList<int>::DDListIte<int> hIte = list.iteratorForNode(1);
 	while (hIte.hasNextForBack()) {
