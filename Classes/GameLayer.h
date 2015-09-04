@@ -13,18 +13,19 @@
 #include "DoubleDList.h"
 #include "PlayerSprite.h"
 #include "LandSprite.h"
-#include "ToolsLayer.h"
 
 class GameLayer : public cocos2d::Layer
 {
-    ToolsLayer *toolsLayer;
     std::vector<PlayerSprite *> playerSprites;
     DoubleDList<LandSprite *> LandSprites;
 
+    Sprite *pauseBtn;
+    Sprite *avatarBtn;
+    Sprite *diceBtn;
     Point prvTouchLoc;
 public:
     static cocos2d::Scene* createScene(int fund = 10000);
-    static GameLayer *create(ToolsLayer *tl, int fund = 10000);
+    static GameLayer *create(int fund = 10000);
     GameLayer();
     ~GameLayer();
     void initTouchListener();
@@ -33,8 +34,6 @@ public:
     bool touchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
-    
-    void purchase();
 };
 
 #endif /* defined(__Richer__GameLayer__) */

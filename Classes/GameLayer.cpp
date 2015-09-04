@@ -7,6 +7,8 @@
 //
 
 #include "GameLayer.h"
+#include "PauseLayer.h"
+#include "OverLayer.h"
 
 USING_NS_CC;
 
@@ -17,24 +19,28 @@ Scene* GameLayer::createScene(int fund)
     auto scene = Scene::create();
     
     auto bgLayer = Layer::create();
-    auto rootNode = CSLoader::createNode("BgLayer.csb");
-    bgLayer->addChild(rootNode);
+    auto bgNode = CSLoader::createNode("BgLayer.csb");
+    bgLayer->addChild(bgNode);
     scene->addChild(bgLayer, 1);
     
-    auto toolsLayer = ToolsLayer::create();
+    auto toolsLayer = Layer::create();
+    auto toolNode = CSLoader::createNode("ToolsLayer.csb");
+    toolsLayer->addChild(toolNode);
     scene->addChild(toolsLayer, 3);
     
-    auto layer = GameLayer::create(toolsLayer, fund);
+    auto layer = GameLayer::create(fund);
+    layer->pauseBtn = static_cast<Sprite*>( toolNode->getChildByTag(19) );
+    layer->diceBtn = static_cast<Sprite*>( toolNode->getChildByTag(12) );
+    layer->avatarBtn = static_cast<Sprite*>( toolNode->getChildByTag(10) );
     scene->addChild(layer, 2);
     
     return scene;
 }
 
-GameLayer *GameLayer::create(ToolsLayer *tl, int fund)
+GameLayer *GameLayer::create(int fund)
 {
     GameLayer *ret = new (std::nothrow) GameLayer();
     
-    ret->toolsLayer = tl;
     // init players
     for(int i = 0; i < pnum.size(); i++) {
         PlayerSprite *player = PlayerSprite::create(pnum[i], fund);
@@ -63,7 +69,7 @@ void GameLayer::initTouchListener() {
     touchlistener->onTouchBegan = CC_CALLBACK_2(GameLayer::touchBegan, this);
     touchlistener->onTouchMoved = CC_CALLBACK_2(GameLayer::touchMoved, this);
     touchlistener->onTouchEnded = CC_CALLBACK_2(GameLayer::touchEnded, this);
-    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 2);
+    eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 1);
 }
 void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
     land->setUp(streetVal, p);
@@ -117,6 +123,21 @@ GameLayer::~GameLayer(){}
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
+    Rect pauseBtnRec = pauseBtn->getBoundingBox();
+    if(pauseBtnRec.containsPoint(touchLoc)) {
+        CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+        return true;
+    }
+    Rect diceBtnRec = diceBtn->getBoundingBox();
+    if(diceBtnRec.containsPoint(touchLoc)) {
+        // roll dice...
+    }
+    Rect avatarBtnRec = avatarBtn->getBoundingBox();
+    if(avatarBtnRec.containsPoint(touchLoc)) {
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+        CCDirector::getInstance()->replaceScene(OverLayer::createScene());
+        return true;
+    }
     prvTouchLoc = touchLoc;
     return true;
 }
