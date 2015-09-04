@@ -2,6 +2,22 @@
 #include <iostream>
 using namespace std;
 
+class Student {
+public:
+	int age;
+	Student(int age) : age(age) {}
+	Student() : age(0) {}
+};
+
+template <class T>
+void printDDList(DoubleDList<T> & list) {
+	cout << "[";
+	while (!list.isEmpty()) {
+		cout << list.popFromHead() << " , ";
+	}
+	cout << "]" << endl;
+}
+
 int main() {
 	DoubleDList<int> list;
 	cout << "size:" << list.getSize() << endl;
@@ -44,9 +60,21 @@ int main() {
 	cout << "tail : " << list.popFromTail() << endl;
 	list.printList();
 
+	// ÈçºÎ±éÀú¡£
+	cout << "ite : [";
+	DoubleDList<int>::DDListIte<int> hIte = list.iteratorForNode(1);
+	while (hIte.hasNextForBack()) {
+		cout << hIte.getCurrent() << " , ";
+		hIte.moveBack();
+	}
+	cout << hIte.getCurrent() << " , ";
+	cout << "]" << endl;
+
+
 	list.removeAll();
 	list.printList();
 	int a = 0;
 	cin >> a;
 	return 0;
 }
+

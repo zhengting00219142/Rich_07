@@ -11,19 +11,109 @@
 #define DOUBLEDLIST_H_
 
 #include <iostream>
+using namespace std;
 #include <assert.h>
 
 template <typename T>
-
 class DoubleDList {
-public:
 
-	// DoubleDList(int initialSize);
+public:
 
 	DoubleDList() {
 		currentSize = 0;
 		head = NULL;
 	}
+
+	template <class A>
+	/**
+	* the node
+	*/
+	class Node {
+	public:
+		A& value;
+		Node * prevNode;
+		Node * nextNode;
+		Node(A& a) : value(a), prevNode(NULL), nextNode(NULL) {}
+	};
+
+	/**
+	* the iterator
+	*/
+	template <typename B>
+	class DDListIte {
+
+	public:
+
+		/**
+		* Function: constructor : DDListIte(node)
+		* Description: create a iterator from the current node;
+		* Return:
+		*/
+		DDListIte(Node<B>* pNode) : currentNode(pNode), temp(pNode) {
+
+		}
+
+		~DDListIte() {
+
+		}
+
+		/**
+		* Function: moveBack
+		* Description: move back one step;
+		* Return:
+		*/
+		void moveBack() {
+			currentNode = currentNode->prevNode;
+		}
+
+		/**
+		* Function: moveFront
+		* Description: move up one step
+		* Return:
+		*/
+		void moveFront() {
+			currentNode = currentNode->nextNode;
+		}
+
+		/**
+		* Function: getCurrent
+		* Description: return the current value
+		* Return:
+			current value
+		*/
+		B& getCurrent() {
+			return currentNode->value;
+		}
+
+		/**
+		* Function: hasNextForUp
+		* Description: when we always move front then this method will check whether 从起始点向前滑动一圈。
+		* Return:
+			true
+			false
+		*/
+		bool hasNextForUp() {
+			return currentNode->nextNode != temp;
+		}
+
+		/**
+		* Function: hasNextForBack
+		* Description: when we always move back then this method will check whether 从起始点向后滑动一圈。
+		* Return:
+			true
+			false
+		*/
+		bool hasNextForBack() {
+			return currentNode->prevNode != temp;
+		}
+
+	private:
+
+		Node<B>* currentNode;
+
+		Node<B>* temp;
+
+	};
 
 	/**
 	* Function: insertBefore
@@ -83,12 +173,8 @@ public:
 	*/
 	T& getAt(int pos) {
 		PNode n = this->getNode(pos);
-		if (n == NULL) {
-			return (T&) n;
-		}
-		else {
-			return (T&) n->value;
-		}
+		assert(n != NULL);
+		return (T&) n->value;
 	}
 
 	/**
@@ -275,6 +361,58 @@ public:
 	}
 
 	/**
+	* Function: iteratorForNode
+	* Description: return a iterator for visit the list. when visit the list , you cannot add or remove element
+		or you must call iteratorForNode to create a new iterator.
+	* Return:
+	*/
+	DDListIte<T> iteratorForNode(int pos) {
+		assert(pos >= 0 || pos < currentSize);
+		DDListIte<T> a(this->getNode(pos));
+		return a;
+	}
+
+	/**
+	* Function: headIte
+	* Description: return a iterator from head to visit. when visit the list , you cannot add or remove element
+	or you must call iteratorForNode to create a new iterator.
+	* Return:
+	*/
+	DDListIte<T> headIte() {
+		assert(currentSize > 0);
+		DDListIte<T> a(head);
+		return a;
+	}
+
+	/**
+	* Function: tailIte
+	* Description: return a tail iterator from tail to visit. when visit the list , you cannot add or remove element
+	or you must call iteratorForNode to create a new iterator.
+	* Return:
+	*/
+	DDListIte<T> tailIte() {
+		assert(currentSize > 0);
+		return iteratorForNode(currentSize - 1);
+	}
+
+	/**
+	* Function: ~DoubleDList
+	* Description: virtual method
+	* Return:
+	*/
+	virtual ~DoubleDList() {
+		PNode temp = head, t2 = NULL;
+		int i = 0;
+		while (i < currentSize) {
+			t2 = temp;
+			temp = temp->nextNode;
+			delete t2;
+			i++;
+		}
+		currentSize = 0;
+	}
+
+	/**
 	* Function: printList
 	* Description: print list like [ele1 , ele2 , ele3 , ... elen , ] , [elen , elen-1 , ... , ele3 , ele2 , ele1]
 	* Return:
@@ -302,36 +440,8 @@ public:
 		}
 	}
 
-	/**
-	* Function: ~DoubleDList
-	* Description: virtual method
-	* Return:
-	*/
-	virtual ~DoubleDList() {
-		PNode temp = head, t2 = NULL;
-		int i = 0;
-		while (i < currentSize) {
-			t2 = temp;
-			temp = temp->nextNode;
-			delete t2;
-			i++;
-		}
-		currentSize = 0;
-	}
-
 private:
 
-	template <class A>
-	/**
-	* the node
-	*/
-	class Node {
-	public:
-		A& value;
-		Node* prevNode;
-		Node* nextNode;
-		Node(A& a) : value(a) , prevNode(NULL) , nextNode(NULL) {}
-	};
 	typedef Node<T>* PNode;
 
 	int currentSize; // the number of the elements in the list
