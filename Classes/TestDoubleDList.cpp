@@ -76,6 +76,5 @@ int main() {
 	int a = 0;
 	cin >> a;
 	return 0;
->>>>>>> 1cf59865a558b29db0af662b6abfdff9c243c6e7
 }
 */
