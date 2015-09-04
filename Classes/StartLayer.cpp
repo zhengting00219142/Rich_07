@@ -31,6 +31,8 @@ StartLayer *StartLayer::create()
     
     Button* startBtn = dynamic_cast<Button*>(rootNode->getChildByName("begin"));
     startBtn->addTouchEventListener(CC_CALLBACK_2(StartLayer::startCallback, ret));
+    Button* aboutBtn = dynamic_cast<Button*>(rootNode->getChildByName("about"));
+    aboutBtn->addTouchEventListener(CC_CALLBACK_2(StartLayer::aboutCallback, ret));
     
     if (ret && ret->init())
     {
@@ -50,6 +52,15 @@ void StartLayer::startCallback(Ref* sender, Widget::TouchEventType type)
         resetGame();
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(InitLayer::createScene());
+    }
+}
+void StartLayer::aboutCallback(Ref* sender, Widget::TouchEventType type)
+{
+    if (type == Widget::TouchEventType::ENDED)
+    {
+        resetGame();
+        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+        CCDirector::getInstance()->replaceScene(AboutLayer::createScene());
     }
 }
 StartLayer::StartLayer(){}

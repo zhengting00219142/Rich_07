@@ -49,10 +49,12 @@ std::string LandSprite::int2Img(int i) {
 
 LandSprite::LandSprite(){}
 
-void LandSprite::setUp(int data, int x, int y) {
-    this->data = data;
+void LandSprite::setUp(int streetVal, int x, int y) {
+    this->data = 0;
+    this->streetVal = streetVal;
     this->p = Position(x, y);
     this->setScale(tileScale);
+    this->setPosition(this->p.toRealPos());
 }
 
 void LandSprite::levelUp() {

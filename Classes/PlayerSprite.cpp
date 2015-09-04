@@ -8,10 +8,10 @@
 
 #include "PlayerSprite.h"
 
-PlayerSprite* PlayerSprite::create(int code, int fund)
+PlayerSprite* PlayerSprite::create(int who, int fund)
 {
     PlayerSprite *sprite = new (std::nothrow) PlayerSprite();
-    sprite->code = code;
+    sprite->who = who;
     // init fund
     sprite->cash = fund;
     sprite->ticket = 0;
@@ -22,7 +22,7 @@ PlayerSprite* PlayerSprite::create(int code, int fund)
     }
     sprite->setScale(tileScale);
     
-    if (sprite && sprite->initWithFile(pavatar[code]))
+    if (sprite && sprite->initWithFile(pavatar[who]))
     {
         sprite->autorelease();
         return sprite;

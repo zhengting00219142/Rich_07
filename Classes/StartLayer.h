@@ -11,6 +11,7 @@
 
 #include "Richer.h"
 #include "InitLayer.h"
+#include "AboutLayer.h"
 
 class StartLayer : public cocos2d::Layer
 {
@@ -22,6 +23,7 @@ public:
     ~StartLayer();
     
     void startCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    void aboutCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
 };
 
 #endif /* defined(__Richer__StartLayer__) */
