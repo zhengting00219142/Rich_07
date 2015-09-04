@@ -73,7 +73,7 @@ void GameLayer::initTouchListener() {
 }
 void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
     land->setUp(streetVal, p);
-    this->LandSprites.pushFromTail(land);
+    this->LandSprites.insertBefore(0, land);
     this->addChild(land, 3);
 }
 
@@ -120,6 +120,28 @@ GameLayer::GameLayer()
 }
 GameLayer::~GameLayer(){}
 
+DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Position p) {
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = LandSprites.headIte();
+    while(iter.hasNextForUp()) {
+        if(p.isEqual(iter.getCurrent()->p))
+            return iter;
+        iter.moveFront();
+    }
+    return NULL;
+}
+
+void GameLayer::move(int step) {
+    // issue: after all the construction... landSprites seems to change into a big list of NULL...
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
+    for(int i = 0; i < step; i++) {
+        cIter.moveFront();
+        playerSprites[turn]->runAction(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
+    }
+}
+
+void GameLayer::changePOV(Position p) {
+    // TODO
+}
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
@@ -130,6 +152,7 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     }
     Rect diceBtnRec = diceBtn->getBoundingBox();
     if(diceBtnRec.containsPoint(touchLoc)) {
+        move(rollDice());
         // roll dice...
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
@@ -141,6 +164,7 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     prvTouchLoc = touchLoc;
     return true;
 }
+// TODO: make compatible with changePOV
 void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
     Vec2 difference(touchLoc.x - prvTouchLoc.x, touchLoc.y - prvTouchLoc.y);

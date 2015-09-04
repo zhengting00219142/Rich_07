@@ -34,6 +34,10 @@ public:
     bool touchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+    
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
+    void move(int step);
+    void changePOV(Position p);
 };
 
 #endif /* defined(__Richer__GameLayer__) */
