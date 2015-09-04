@@ -24,8 +24,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/OverLayer.cpp \
                    ../../Classes/PauseLayer.cpp \
                    ../../Classes/PlayerSprite.cpp \
-                   ../../Classes/Position.cpp \
-                   ../../Classes/ToolsLayer.cpp
+                   ../../Classes/ToolsLayer.cpp \
+                   ../../Classes/AboutLayer.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
