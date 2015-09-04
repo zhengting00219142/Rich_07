@@ -20,15 +20,17 @@ class GameLayer : public cocos2d::Layer
 
     Point prvTouchLoc;
 public:
-    
     static cocos2d::Scene* createScene(int fund = 10000);
     static GameLayer *create(int fund = 10000);
     GameLayer();
     ~GameLayer();
-    
+    void initTouchListener();
+    void initMap();
     bool touchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+    
+    void purchase();
 };
 
 #endif /* defined(__Richer__GameLayer__) */

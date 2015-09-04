@@ -36,7 +36,7 @@ GameLayer *GameLayer::create(int fund)
         player->p = Position(0, MAP_ROW-1);
         ret->playerSprites.push_back(player);
         player->setPosition(player->p.toRealPos());
-        ret->addChild(player, (int)pnum.size()-i+5);
+        ret->addChild(player, (int)pnum.size()-i+4);
     }
     
     if (ret && ret->init())
@@ -51,8 +51,7 @@ GameLayer *GameLayer::create(int fund)
     }
 }
 
-GameLayer::GameLayer()
-{
+void GameLayer::initTouchListener() {
     auto eventDispatcher = Director::getInstance()->getEventDispatcher();
     auto touchlistener = EventListenerTouchOneByOne::create();
     touchlistener->setSwallowTouches(true);
@@ -60,68 +59,58 @@ GameLayer::GameLayer()
     touchlistener->onTouchMoved = CC_CALLBACK_2(GameLayer::touchMoved, this);
     touchlistener->onTouchEnded = CC_CALLBACK_2(GameLayer::touchEnded, this);
     eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 2);
+}
+void GameLayer::initMap() {
+    // land type[]
+    int lt[MAP_COL];
+    for(int i = 0; i < MAP_COL; i++) {
+        lt[i] = LTYPE_UNOCCUPIED;
+    }
+    lt[14]=LTYPE_HOSPITAL; lt[MAP_COL-1]=LTYPE_SHOP;
     
-    // init lands
-    for(int i = 0, y = MAP_ROW-1; i < MAP_COL; i++) {
-        LandSprite *land = NULL;
-        if(i == 0) {
-            land = LandSprite::create();
-            land->setUp(0, i, y);
-        }
-        else if(i == 14) {
-            land = LandSprite::create(LTYPE_HOSPITAL);
-            land->setUp(0, i, y);
-        }
-        else if(i == MAP_COL-1) {
-            land = LandSprite::create(LTYPE_SHOP);
-            land->setUp(0, i, y);
-        }
-        else {
-            land = LandSprite::create(LTYPE_UNOCCUPIED);
-            land->setUp(200, i, y);
-        }
-        land->setPosition(land->p.toRealPos());
+    LandSprite *land = LandSprite::create();
+    land->setUp(0, 0, MAP_ROW-1);
+    this->addChild(land, 3);
+    
+    for(int i = 1, y = MAP_ROW-1; i < MAP_COL; i++) {
+        LandSprite *land = LandSprite::create(lt[i]);
+        land->setUp(200, i, y);
         this->addChild(land, 3);
     }
+    
+    for(int i = 0; i < MAP_COL; i++) {
+        lt[i] = LTYPE_UNOCCUPIED;
+    }
+    lt[0] = LTYPE_MAGIC; lt[14]=LTYPE_PRISON; lt[MAP_COL-1]=LTYPE_GIFT;
     for(int i = 0, y = 0; i < MAP_COL; i++) {
-        LandSprite *land = NULL;
-        if(i == 0) {
-            land = LandSprite::create(LTYPE_MAGIC);
-            land->setUp(0, i, y);
-        }
-        else if(i == 14) {
-            land = LandSprite::create(LTYPE_PRISON);
-            land->setUp(0, i, y);
-        }
-        else if(i == MAP_COL-1) {
-            land = LandSprite::create(LTYPE_GIFT);
-            land->setUp(0, i, y);
-        }
-        else {
-            land = LandSprite::create(LTYPE_UNOCCUPIED);
-            land->setUp(300, i, y);
-        }
-        land->setPosition(land->p.toRealPos());
+        LandSprite *land = LandSprite::create(lt[i]);
+        land->setUp(300, i, y);
         this->addChild(land, 3);
     }
     for(int j = 1, x = MAP_COL-1; j < MAP_ROW-1; j++) {
         LandSprite *land = LandSprite::create(LTYPE_UNOCCUPIED);
         land->setUp(500, x, j);
-        land->setPosition(land->p.toRealPos());
         this->addChild(land, 3);
     }
-    int data[MAP_ROW] = {0, 20, 80, 100, 40, 80, 60, 0};
+    int ld[MAP_ROW] = {0, 20, 80, 100, 40, 80, 60, 0};
     for(int j = 1, x = 0; j < MAP_ROW-1; j++) {
         LandSprite *land = LandSprite::create(LTYPE_MINE);
-        land->setUp(data[j], x, j);
-        land->setPosition(land->p.toRealPos());
+        land->setUp(0, x, j);
+        land->data = ld[j];
         this->addChild(land, 3);
     }
+
+}
+
+GameLayer::GameLayer()
+{
+    initTouchListener();
+    initMap();
 }
 GameLayer::~GameLayer(){}
 
+// touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
-    playerSprites[0]->move2Spot(Position(playerSprites[0]->p.x+2, 7));
     Point touchLoc = touch->getLocation();
     prvTouchLoc = touchLoc;
     return true;

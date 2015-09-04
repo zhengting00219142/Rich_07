@@ -16,14 +16,15 @@ public:
     Position p;
     
     int type;
+    int streetVal;
     int data;
     int owner;
     
     static LandSprite *create(int type);
     static LandSprite *create();
-    std::string int2Img(int i);
     LandSprite();
-    void setUp(int data, int x, int y);
+    std::string int2Img(int i);
+    void setUp(int streetVal, int x, int y);
     
     void levelUp();
 };

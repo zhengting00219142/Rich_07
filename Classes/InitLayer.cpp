@@ -55,7 +55,7 @@ void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
     if (type == Widget::TouchEventType::ENDED)
     {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-        pnum.push_back(2);pnum.push_back(1);pnum.push_back(4);
+        pnum.push_back(1);pnum.push_back(0);pnum.push_back(3);
         CCDirector::getInstance()->replaceScene(GameLayer::createScene());
     }
 }
