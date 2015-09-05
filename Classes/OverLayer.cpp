@@ -13,12 +13,15 @@ USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
-Scene* OverLayer::createScene()
+Scene* OverLayer::createScene(int who)
 {
 	//log("%d", who);
     initWinSiz();
     auto scene = Scene::create();
     auto layer = OverLayer::create();
+    
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[who]);
+    layer->richer ->setTexture(texture);
     scene->addChild(layer, 3);
     return scene;
 }
@@ -30,8 +33,9 @@ OverLayer *OverLayer::create()
     auto rootNode = CSLoader::createNode("GameOverLayer.csb");
     ret->addChild(rootNode);
 
-    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage("richer2.png");
-    (dynamic_cast<Sprite*>( rootNode->getChildByName("richer") ))->setTexture(texture);
+    
+    ret->richer = static_cast<Sprite*>( rootNode->getChildByName("richer") );
+    
 
     if (ret && ret->init())
     {

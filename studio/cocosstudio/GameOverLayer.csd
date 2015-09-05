@@ -40,20 +40,9 @@
       <ObjectData Name="Layer" Tag="11" ctype="GameLayerObjectData">
         <Size X="1920.0000" Y="1080.0000" />
         <Children>
-          <AbstractNodeData Name="Sprite_6" ActionTag="1477899631" Tag="24" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="681.3304" RightMargin="639.6697" TopMargin="331.4564" BottomMargin="249.5436" ctype="SpriteObjectData">
+          <AbstractNodeData Name="sprite" ActionTag="1477899631" Tag="24" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="681.3304" RightMargin="639.6697" TopMargin="331.4564" BottomMargin="249.5436" ctype="SpriteObjectData">
             <Size X="599.0000" Y="499.0000" />
             <Children>
-              <AbstractNodeData Name="richer" ActionTag="-777884744" Tag="28" IconVisible="False" LeftMargin="-259.7949" RightMargin="-165.2051" TopMargin="-358.7942" BottomMargin="-166.2058" ctype="SpriteObjectData">
-                <Size X="1024.0000" Y="1024.0000" />
-                <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
-                <Position X="252.2052" Y="345.7942" />
-                <Scale ScaleX="0.0522" ScaleY="0.0720" />
-                <CColor A="255" R="255" G="255" B="255" />
-                <PrePosition X="0.4210" Y="0.6930" />
-                <PreSize X="0.0000" Y="0.0000" />
-                <FileData Type="Normal" Path="richer1.png" Plist="" />
-                <BlendFunc Src="770" Dst="771" />
-              </AbstractNodeData>
               <AbstractNodeData Name="touchBack_4" ActionTag="-752578313" Alpha="172" Tag="29" IconVisible="False" PositionPercentXEnabled="True" LeftMargin="99.5000" RightMargin="99.5000" TopMargin="316.6622" BottomMargin="82.3378" ctype="SpriteObjectData">
                 <Size X="400.0000" Y="100.0000" />
                 <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
@@ -74,6 +63,17 @@
             <PreSize X="0.8333" Y="1.1852" />
             <FileData Type="Normal" Path="bg.jpg" Plist="" />
             <BlendFunc Src="770" Dst="771" />
+          </AbstractNodeData>
+          <AbstractNodeData Name="richer" ActionTag="874347889" Tag="39" IconVisible="False" LeftMargin="214.3617" RightMargin="681.6383" TopMargin="-156.1277" BottomMargin="212.1276" ctype="SpriteObjectData">
+            <Size X="1024.0000" Y="1024.0000" />
+            <AnchorPoint ScaleX="0.5000" ScaleY="0.5000" />
+            <Position X="726.3617" Y="724.1276" />
+            <Scale ScaleX="0.2917" ScaleY="0.2930" />
+            <CColor A="255" R="255" G="255" B="255" />
+            <PrePosition X="0.3783" Y="0.6705" />
+            <PreSize X="0.0000" Y="0.0000" />
+            <FileData Type="Normal" Path="richer1.png" Plist="" />
+            <BlendFunc Src="1" Dst="771" />
           </AbstractNodeData>
           <AbstractNodeData Name="Button_1" ActionTag="-572867511" Tag="25" IconVisible="False" LeftMargin="915.6268" RightMargin="604.3732" TopMargin="313.8282" BottomMargin="666.1718" TouchEnable="True" FontSize="14" Scale9Enable="True" LeftEage="15" RightEage="15" TopEage="11" BottomEage="11" Scale9OriginX="15" Scale9OriginY="11" Scale9Width="370" Scale9Height="78" ShadowOffsetX="2.0000" ShadowOffsetY="-2.0000" ctype="ButtonObjectData">
             <Size X="400.0000" Y="100.0000" />

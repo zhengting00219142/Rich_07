@@ -270,7 +270,7 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-        CCDirector::getInstance()->replaceScene(OverLayer::createScene());
+        CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
         return true;
     }
     prvTouchLoc = touchLoc;
