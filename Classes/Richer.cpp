@@ -13,7 +13,6 @@ float winMidX;
 float winMidY;
 float tileSiz;
 float tileScale;
-float margin;
 float offsetX;
 float offsetY;
 float mapHeight, mapWidth;
@@ -39,14 +38,14 @@ void initWinSiz() {
     winMidY = winSiz.height/2;
     tileSiz = winSiz.height/PORTION_TILE_SIZE;
     tileScale = tileSiz / RES_SIZE;
-    margin = winSiz.height/PORTION_MAP_MARGIN;
-    // position.x * tileSiz + offsetX = real position.x
-    offsetX = margin + tileSiz/2;
-    // position.y * tileSiz + offsetY = real position.y
-    offsetY = winSiz.height - margin - (MAP_ROW-0.5)*tileSiz;
     
-    mapWidth = MAP_COL * tileSiz + 2 * margin + winSiz.width/PORTION_MAP_RIGHT_MARGIN;
-    mapHeight = MAP_ROW * tileSiz + 2 * margin + winSiz.height/PORTION_MAP_BOTTOM_MARGIN;
+    // position.x * tileSiz + offsetX = real position.x
+    offsetX = tileSiz + tileSiz/2;
+    // position.y * tileSiz + offsetY = real position.y
+    offsetY = winSiz.height - tileSiz - (MAP_ROW-0.5)*tileSiz;
+    
+    mapWidth = MAP_COL * tileSiz + (winSiz.width/tileSiz - 1)*tileSiz;// + winSiz.width/PORTION_MAP_RIGHT_MARGIN;
+    mapHeight = MAP_ROW * tileSiz + (PORTION_TILE_SIZE - 1)*tileSiz;// + winSiz.height/PORTION_MAP_BOTTOM_MARGIN;
 }
 
 Position::Position() {
