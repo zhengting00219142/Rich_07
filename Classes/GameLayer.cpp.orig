@@ -235,7 +235,7 @@ void GameLayer::checkIn() {
         case LTYPE_MINE:
             playerSprites[turn]->ticket += land->data;
             oss << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
-            notifyPlayer(oss.str());
+            //notifyPlayer(oss.str());
             log("%s", oss.str().c_str());
             return;
         default:
@@ -258,15 +258,18 @@ void GameLayer::checkIn() {
             return;
     }
 }
+<<<<<<< HEAD
 void GameLayer::updateCash() {
     ostringstream oss;
     oss << "金钱：" << playerSprites[turn]->cash;
     cashTxt->setString(oss.str());
 }
+=======
 void GameLayer::notifyPlayer(string info) {
     
 }
 
+>>>>>>> cf184b93327ef8112e97057b14e6eb1e0e5b5ef9
 void GameLayer::updateToolsLayer() {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);
     avatarBtn->setTexture(texture);
