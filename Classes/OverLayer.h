@@ -13,7 +13,7 @@
 
 class OverLayer : public cocos2d::Layer
 {
-public:
+	public:
     static cocos2d::Scene* createScene();
     static OverLayer *create();
     OverLayer();

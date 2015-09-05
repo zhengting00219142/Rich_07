@@ -15,6 +15,7 @@ using namespace cocostudio::timeline;
 
 Scene* OverLayer::createScene()
 {
+	//log("%d", who);
     initWinSiz();
     auto scene = Scene::create();
     auto layer = OverLayer::create();
@@ -28,6 +29,9 @@ OverLayer *OverLayer::create()
     
     auto rootNode = CSLoader::createNode("GameOverLayer.csb");
     ret->addChild(rootNode);
+
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage("richer2.png");
+    (dynamic_cast<Sprite*>( rootNode->getChildByName("richer") ))->setTexture(texture);
 
     if (ret && ret->init())
     {

@@ -210,6 +210,10 @@ void GameLayer::checkIn() {
             return;
     }
 }
+void GameLayer::notifyPlayer(string info) {
+    
+}
+
 void GameLayer::updateToolsLayer() {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);
     avatarBtn->setTexture(texture);
