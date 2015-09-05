@@ -22,6 +22,12 @@ class GameLayer : public cocos2d::Layer
     Sprite *pauseBtn;
     Sprite *avatarBtn;
     Sprite *diceBtn;
+    cocos2d::ui::Button *blockBtn;
+    cocos2d::ui::Button *bombBtn;
+    cocos2d::ui::Button *robotBtn;
+    void blockBtnListener(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    void bombBtnListener(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    void robotBtnListener(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
     cocos2d::ui::Text *dayTxt;
     cocos2d::ui::Text *cashTxt;
     cocos2d::ui::Text *ticketTxt;
@@ -43,10 +49,14 @@ public:
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
     void changePOV(Position p);
+    void notifyPlayer(string info);
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
     void move(int step);
+    void moveAnimCallback();
     void updateToolsLayer();
     void nextTurn();
+    bool checkOut();
+    void checkIn();
 };
 
 #endif /* defined(__Richer__GameLayer__) */

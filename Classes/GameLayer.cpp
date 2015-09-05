@@ -67,6 +67,13 @@ void GameLayer::initWidget(Node *toolNode) {
     this->diceBtn = static_cast<Sprite*>( toolNode->getChildByTag(12) );
     this->avatarBtn = static_cast<Sprite*>( toolNode->getChildByTag(10) );
     
+    this->blockBtn = dynamic_cast<ui::Button*>(toolNode->getChildByName("block"));
+    this->bombBtn = dynamic_cast<ui::Button*>(toolNode->getChildByName("bomb"));
+    this->robotBtn = dynamic_cast<ui::Button*>(toolNode->getChildByName("robot"));
+    blockBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::blockBtnListener, this));
+    bombBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::bombBtnListener, this));
+    robotBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::robotBtnListener, this));
+    
     this->dayTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("day"));
     this->cashTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("money"));
     this->ticketTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("ticket"));
@@ -160,9 +167,48 @@ void GameLayer::move(int step) {
         cIter.moveBack();
         arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
     }
+    arrayOfActions.pushBack(CallFunc::create(CC_CALLBACK_0(GameLayer::moveAnimCallback, this)));
     playerSprites[turn]->p = cIter.getCurrent()->p;
     changePOV(cIter.getCurrent()->p);
     playerSprites[turn]->runAction(Sequence::create(arrayOfActions));
+}
+void GameLayer::moveAnimCallback() {
+    nextTurn();
+}
+bool GameLayer::checkOut() {
+    ostringstream oss;
+    int status = playerSprites[turn]->status;
+    if(status == STATUS_NORM) return true;
+    
+}
+// player status
+#define STATUS_BROKE -1
+#define STATUS_NORM 0
+#define STATUS_INJURED 10
+#define STATUS_INPRISON 100
+#define STATUS_MONEYGOD 1000
+void GameLayer::checkIn() {
+    ostringstream oss;
+    LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
+    switch(land->type) {
+        case LTYPE_UNOCCUPIED:
+            // TODO
+            return;
+        case LTYPE_SHOP: return;
+        case LTYPE_GIFT: return;
+        case LTYPE_MAGIC: return;
+        case LTYPE_HOSPITAL:
+        case LTYPE_PRISON: return;
+        case LTYPE_MINE:
+            playerSprites[turn]->ticket += land->data;
+            oss << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
+            notifyPlayer(oss.str());
+            log("%s", oss.str().c_str());
+            return;
+        default:
+            // TODO
+            return;
+    }
 }
 void GameLayer::updateToolsLayer() {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);
@@ -174,13 +220,13 @@ void GameLayer::updateToolsLayer() {
     oss << "点数：" << playerSprites[turn]->ticket;
     ticketTxt->setString(oss.str());
     oss.str("");
-    oss << "x" << playerSprites[turn]->items[0];
+    oss << "x" << playerSprites[turn]->items[ITEM_BLOCK];
     blockTxt->setString(oss.str());
     oss.str("");
-    oss << "x" << playerSprites[turn]->items[1];
+    oss << "x" << playerSprites[turn]->items[ITEM_BOMB];
     bombTxt->setString(oss.str());
     oss.str("");
-    oss << "x" << playerSprites[turn]->items[2];
+    oss << "x" << playerSprites[turn]->items[ITEM_ROBOT];
     robotTxt->setString(oss.str());
 }
 void GameLayer::nextTurn() {
@@ -192,7 +238,16 @@ void GameLayer::nextTurn() {
         turn = 0;
     }
     updateToolsLayer();
-    //changePOV(playerSprites[turn]->p);
+}
+
+void GameLayer::blockBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_BLOCK] == 0) return;
+}
+void GameLayer::bombBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_BOMB] == 0) return;
+}
+void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
 }
 
 // touch methods, help create a moveable map
@@ -207,7 +262,6 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(diceBtnRec.containsPoint(touchLoc)) {
         // roll dice...
         move(rollDice());
-        nextTurn();
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
@@ -233,4 +287,3 @@ void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
     log("x: %f, y: %f", this->getPosition().x, this->getPosition().y);//touchLoc.x, touchLoc.y);
 }
-
