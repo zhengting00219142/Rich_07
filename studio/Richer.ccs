@@ -1,0 +1,44 @@
+<Solution>
+  <PropertyGroup Name="Richer" Version="2.3.2.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="StartScene.csd" Type="Scene" />
+        <Project Name="SetScene.csd" Type="Scene" />
+        <Project Name="PauseLayer.csd" Type="Layer" />
+        <Project Name="GameOverLayer.csd" Type="Layer" />
+        <Image Name="iconfont-fenxiangb-2.png" />
+        <Image Name="iconfont-iconfontgongyichongwu-2.png" />
+        <Image Name="iconfont-iconfontjiazhuangjiancai-3.png" />
+        <Image Name="begin.png" />
+        <Image Name="richer.png" />
+        <Image Name="continue.png" />
+        <Image Name="quit.png" />
+        <Image Name="gameover.png" />
+        <Image Name="touchBack.png" />
+        <Image Name="chooseRicher.png" />
+        <Image Name="iconfont-check.png" />
+        <Image Name="initmoney.png" />
+        <Image Name="iconfont-back.png" />
+        <Image Name="iconfont-more.png" />
+        <Image Name="bg.jpg" />
+        <Image Name="dice.png" />
+        <Image Name="richer1.png" />
+        <Image Name="richer2.png" />
+        <Image Name="richer3.png" />
+        <Image Name="robot.png" />
+        <Project Name="ToolsLayer.csd" Type="Layer" />
+        <Image Name="block.png" />
+        <Image Name="bomb.png" />
+        <Image Name="setting.png" />
+        <Project Name="BgLayer.csd" Type="Layer" />
+        <Image Name="richer4.png" />
+        <Project Name="AboutScene.csd" Type="Scene" />
+        <Image Name="about.png" />
+        <Project Name="ShopLayer.csd" Type="Layer" />
+        <Image Name="cancel.png" />
+        <Image Name="makesure.png" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
