@@ -1,4 +1,4 @@
-#include "DoubleDList.h"
+/*#include "DoubleDList.h"
 #include <iostream>
 using namespace std;
 
@@ -100,7 +100,7 @@ int main() {
 	cout << "tail : " << list.popFromTail()->age << endl;
 	printList(list);
 
-	// ÈçºÎ±éÀú¡£
+	// iterator the list.
 	cout << "ite : [";
 	DoubleDList<Student*>::DDListIte<Student*> hIte = list.iteratorForNode(1);  // if call list.headIte then we can call moveBack or moveFront to visit from head to tail
 	          // if we call list.tailIte , we can call moveBack or moveFront to visit from tail to head.
@@ -143,3 +143,4 @@ int main() {
 	return 0;
 }
 
+*/

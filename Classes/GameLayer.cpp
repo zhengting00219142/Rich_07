@@ -142,11 +142,13 @@ void GameLayer::changePOV(Position p) {
 }
 DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Position p) {
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = landSprites.headIte();
-    while(iter.hasNextForUp()) {
+    LandSprite *tmp = iter.getCurrent();
+    if(iter.getCurrent() == NULL) return NULL;
+    do{
         if(p.isEqual(iter.getCurrent()->p))
             return iter;
-        iter.moveFront();
-    }
+        iter.moveBack();
+    } while(iter.getCurrent() != tmp);
     return NULL;
 }
 
@@ -155,9 +157,11 @@ void GameLayer::move(int step) {
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
     Vector< FiniteTimeAction * > arrayOfActions;
     for(int i = 0; i < step; i++) {
-        cIter.moveFront();
+        cIter.moveBack();
         arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
     }
+    playerSprites[turn]->p = cIter.getCurrent()->p;
+    changePOV(cIter.getCurrent()->p);
     playerSprites[turn]->runAction(Sequence::create(arrayOfActions));
 }
 void GameLayer::updateToolsLayer() {
@@ -188,6 +192,7 @@ void GameLayer::nextTurn() {
         turn = 0;
     }
     updateToolsLayer();
+    //changePOV(playerSprites[turn]->p);
 }
 
 // touch methods, help create a moveable map
@@ -200,9 +205,9 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     }
     Rect diceBtnRec = diceBtn->getBoundingBox();
     if(diceBtnRec.containsPoint(touchLoc)) {
-        nextTurn();
-        //move(rollDice());
         // roll dice...
+        move(rollDice());
+        nextTurn();
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
