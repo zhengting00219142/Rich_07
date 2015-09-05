@@ -26,7 +26,7 @@ public:
     std::string int2Img(int i);
     void setUp(int streetVal, Position p);
     
-    void levelUp();
+    void levelUp(int who);
 };
 
 #endif /* defined(__Richer__LandSprite__) */

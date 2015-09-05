@@ -48,11 +48,15 @@ public:
     void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
+    int getTurnWithWho(int who);
     void changePOV(Position p);
     void notifyPlayer(string info);
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
+    void transfer(int src, int dst, int amout);
+    void purchase();
     void move(int step);
     void moveAnimCallback();
+    void updateCash();
     void updateToolsLayer();
     void nextTurn();
     bool checkOut();

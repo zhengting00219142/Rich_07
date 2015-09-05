@@ -57,6 +57,10 @@ void LandSprite::setUp(int streetVal, Position p) {
     this->setPosition(this->p.toRealPos());
 }
 
-void LandSprite::levelUp() {
-    
+void LandSprite::levelUp(int who) {
+    this->owner = who;
+    this->type++;
+    this->data += streetVal;
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(houseImg[who][type]);
+    this->setTexture(texture);
 }

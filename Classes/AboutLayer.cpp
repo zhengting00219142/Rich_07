@@ -16,7 +16,6 @@ using namespace cocos2d::ui;
 
 Scene* AboutLayer::createScene()
 {
-    initWinSiz();
     auto scene = Scene::create();
     auto layer = AboutLayer::create();
     scene->addChild(layer, 3);

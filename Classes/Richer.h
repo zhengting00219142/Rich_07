@@ -77,6 +77,7 @@ extern int day;
 extern std::string pavatar[4];
 extern std::string houseImg[4][4];
 
+int string2Int(std::string str);
 int rollDice();
 
 void initWinSiz();

@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include "GameLayer.h"
+#include "ShopLayer.h"
 #include "PauseLayer.h"
 #include "OverLayer.h"
 
@@ -131,8 +132,8 @@ void GameLayer::initMap() {
     for(int x = 0, j = 1; j < MAP_ROW-1; j++) {
         LandSprite *land  = NULL;
         land = LandSprite::create(LTYPE_MINE);
-        land->data = ld[j];
         initLandSprite(land, 0, Position(x, j));
+        land->data = ld[j];
     }
 }
 
@@ -143,6 +144,13 @@ GameLayer::GameLayer()
 }
 GameLayer::~GameLayer(){}
 
+int GameLayer::getTurnWithWho(int who) {
+    for(int i = 0; i < playerSprites.size(); i++) {
+        if(pnum[i] == who)
+            return i;
+    }
+    return 0;
+}
 void GameLayer::changePOV(Position p) {
     // Relative position to left bottom of the screen, (1, 2)
     this->setPosition(-tileSiz * p.x, tileSiz * (MAP_ROW - 1 - p.y));
@@ -159,6 +167,20 @@ DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Positio
     return NULL;
 }
 
+void GameLayer::transfer(int src, int dst, int amout) {
+    playerSprites[getTurnWithWho(src)]->cash -= amout;
+    playerSprites[getTurnWithWho(dst)]->cash += amout;
+    updateCash();
+    // !!!!!!
+}
+void GameLayer::purchase() {
+    LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
+    playerSprites[turn]->cash -= land->streetVal;
+    // !!!!!!
+    playerSprites[turn]->properties.push_back(land);
+    land->levelUp(pnum[turn]);
+    updateCash();
+}
 void GameLayer::move(int step) {
     // issue: after all the construction... landSprites seems to change into a big list of NULL...
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
@@ -173,28 +195,39 @@ void GameLayer::move(int step) {
     playerSprites[turn]->runAction(Sequence::create(arrayOfActions));
 }
 void GameLayer::moveAnimCallback() {
+    checkIn();
     nextTurn();
 }
 bool GameLayer::checkOut() {
     ostringstream oss;
     int status = playerSprites[turn]->status;
     if(status == STATUS_NORM) return true;
-    
+    if(status / STATUS_INJURED % 10) {
+        playerSprites[turn]->status -= STATUS_INJURED;
+        return false;
+    }
+    if(status / STATUS_INPRISON % 10) {
+        playerSprites[turn]->status -= STATUS_INPRISON;
+        return false;
+    }
+    if(status / STATUS_MONEYGOD % 10) {
+        playerSprites[turn]->status -= STATUS_MONEYGOD;
+        return true;
+    }
 }
-// player status
-#define STATUS_BROKE -1
-#define STATUS_NORM 0
-#define STATUS_INJURED 10
-#define STATUS_INPRISON 100
-#define STATUS_MONEYGOD 1000
 void GameLayer::checkIn() {
     ostringstream oss;
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     switch(land->type) {
         case LTYPE_UNOCCUPIED:
-            // TODO
+            // TODO: ask if buy
+            purchase();
             return;
-        case LTYPE_SHOP: return;
+        case LTYPE_SHOP: {
+//            auto shop = ShopLayer::create(playerSprites[turn]->ticket);
+//            this->addChild(shop, 10);
+            return;
+        }
         case LTYPE_GIFT: return;
         case LTYPE_MAGIC: return;
         case LTYPE_HOSPITAL:
@@ -202,13 +235,33 @@ void GameLayer::checkIn() {
         case LTYPE_MINE:
             playerSprites[turn]->ticket += land->data;
             oss << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
-            notifyPlayer(oss.str());
+            //notifyPlayer(oss.str());
             log("%s", oss.str().c_str());
             return;
         default:
             // TODO
+            if(land->owner != pnum[turn]) {
+                int amout = land->data;
+                if(playerSprites[turn]->status / STATUS_MONEYGOD % 10)
+                    amout/=2;
+                transfer(pnum[turn], land->owner, amout);
+            }
+            else if(land->type == LTYPE_MAXLV) return;
+            else {
+                // TODO: ask if level u
+                playerSprites[turn]->cash -= land->streetVal;
+                // !!!!!!
+                land->levelUp(pnum[turn]);
+                updateCash();
+                    
+            }
             return;
     }
+}
+void GameLayer::updateCash() {
+    ostringstream oss;
+    oss << "金钱：" << playerSprites[turn]->cash;
+    cashTxt->setString(oss.str());
 }
 void GameLayer::updateToolsLayer() {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);

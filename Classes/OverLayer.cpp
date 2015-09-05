@@ -15,7 +15,6 @@ using namespace cocostudio::timeline;
 
 Scene* OverLayer::createScene()
 {
-    initWinSiz();
     auto scene = Scene::create();
     auto layer = OverLayer::create();
     scene->addChild(layer, 3);
