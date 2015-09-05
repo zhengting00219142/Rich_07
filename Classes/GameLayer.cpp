@@ -167,16 +167,57 @@ DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Positio
     return NULL;
 }
 
+void GameLayer::gameOver(int lastLoser) {
+    int winner = playerSprites[++turn%2]->who;
+    Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+    CCDirector::getInstance()->replaceScene(OverLayer::createScene(winner));
+}
+void GameLayer::brokeProcedure(int who) {
+    if(playerSprites.size() == 2) {
+        gameOver(who);
+        return;
+    }
+    notifyPlayer("你破产啦！！！！！房子家产自动消失！！！！！还有人！！！");
+    int _turn = getTurnWithWho(who);
+    PlayerSprite *player = playerSprites[_turn];
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage("unoccupied.png");
+    for(int i = 0; i < player->properties.size(); i++) {
+        LandSprite *land = player->properties[i];
+        land->type = LTYPE_UNOCCUPIED;
+        land->data = 0;
+        land->setTexture(texture);
+    }
+    int j = 0;
+    for(std::vector<PlayerSprite *>::iterator i = playerSprites.begin();
+        i != playerSprites.end(); j++) {
+        if(j == _turn) {
+            (*i)->removeFromParent();
+            i = playerSprites.erase(i);
+            break;
+        }
+        i++;
+    }
+    j = 0;
+    for(std::vector<int>::iterator i = pnum.begin();
+        i != pnum.end(); j++) {
+        if(j == _turn) {
+            i = pnum.erase(i);
+            break;
+        }
+        i++;
+    }
+    updateToolsLayer();
+}
 void GameLayer::transfer(int src, int dst, int amout) {
     playerSprites[getTurnWithWho(src)]->cash -= amout;
     playerSprites[getTurnWithWho(dst)]->cash += amout;
+    if(playerSprites[getTurnWithWho(src)]->cash < 0)
+        brokeProcedure(src);
     updateCash();
-    // !!!!!!
 }
 void GameLayer::purchase() {
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     playerSprites[turn]->cash -= land->streetVal;
-    // !!!!!!
     playerSprites[turn]->properties.push_back(land);
     land->levelUp(pnum[turn]);
     updateCash();
@@ -192,14 +233,15 @@ void GameLayer::move(int step) {
     arrayOfActions.pushBack(CallFunc::create(CC_CALLBACK_0(GameLayer::moveAnimCallback, this)));
     playerSprites[turn]->p = cIter.getCurrent()->p;
     changePOV(cIter.getCurrent()->p);
+    isMoving = true;
     playerSprites[turn]->runAction(Sequence::create(arrayOfActions));
 }
 void GameLayer::moveAnimCallback() {
+    isMoving = false;
     checkIn();
     nextTurn();
 }
 bool GameLayer::checkOut() {
-    ostringstream oss;
     int status = playerSprites[turn]->status;
     if(status == STATUS_NORM) return true;
     if(status / STATUS_INJURED % 10) {
@@ -220,6 +262,8 @@ void GameLayer::checkIn() {
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     switch(land->type) {
         case LTYPE_UNOCCUPIED:
+            if(playerSprites[turn]->cash < land->streetVal)
+                return;
             // TODO: ask if buy
             purchase();
             return;
@@ -248,12 +292,12 @@ void GameLayer::checkIn() {
             }
             else if(land->type == LTYPE_MAXLV) return;
             else {
+                if(playerSprites[turn]->cash < land->streetVal)
+                    return;
                 // TODO: ask if level u
                 playerSprites[turn]->cash -= land->streetVal;
-                // !!!!!!
                 land->levelUp(pnum[turn]);
                 updateCash();
-                    
             }
             return;
     }
@@ -309,6 +353,7 @@ void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventTyp
 
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
+    if(isMoving) return true;
     Point touchLoc = touch->getLocation();
     Rect pauseBtnRec = pauseBtn->getBoundingBox();
     if(pauseBtnRec.containsPoint(touchLoc)) {
@@ -322,6 +367,9 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
+        //brokeProcedure(pnum[turn]);
+        // for debug sake
+        //changePOV(playerSprites[turn]->p);
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
         return true;
@@ -341,6 +389,6 @@ void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
     prvTouchLoc = touchLoc;
 }
 void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
-    Point touchLoc = touch->getLocation();
-    log("x: %f, y: %f", this->getPosition().x, this->getPosition().y);//touchLoc.x, touchLoc.y);
+    //Point touchLoc = touch->getLocation();
+    //log("x: %f, y: %f", this->getPosition().x, this->getPosition().y);//touchLoc.x, touchLoc.y);
 }

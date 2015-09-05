@@ -35,6 +35,7 @@ class GameLayer : public cocos2d::Layer
     cocos2d::ui::Text *bombTxt;
     cocos2d::ui::Text *robotTxt;
     Point prvTouchLoc;
+    bool isMoving;
 public:
     static cocos2d::Scene* createScene(int fund = 10000);
     static GameLayer *create(int fund = 10000);
@@ -48,10 +49,12 @@ public:
     void touchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void touchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     
+    void gameOver(int lastLoser);
     int getTurnWithWho(int who);
     void changePOV(Position p);
     void notifyPlayer(string info);
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
+    void brokeProcedure(int who);
     void transfer(int src, int dst, int amout);
     void purchase();
     void move(int step);

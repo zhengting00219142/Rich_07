@@ -28,6 +28,7 @@ std::string houseImg[4][4] = {
     {"unoccupied.png", "home3_1.png", "home3_2.png", "home3_3.png"},
     {"unoccupied.png", "home4_1.png", "home4_2.png", "home4_3.png"}};
 
+// issue: I want a better solution...
 int string2Int(std::string str) {
     int ret;
     std::stringstream ss(str);
