@@ -6,6 +6,7 @@
 //
 //
 
+#include <sstream>
 #include "GameLayer.h"
 #include "PauseLayer.h"
 #include "OverLayer.h"
@@ -29,9 +30,8 @@ Scene* GameLayer::createScene(int fund)
     scene->addChild(toolsLayer, 3);
     
     auto layer = GameLayer::create(fund);
-    layer->pauseBtn = static_cast<Sprite*>( toolNode->getChildByTag(19) );
-    layer->diceBtn = static_cast<Sprite*>( toolNode->getChildByTag(12) );
-    layer->avatarBtn = static_cast<Sprite*>( toolNode->getChildByTag(10) );
+    layer->initWidget(toolNode);
+    layer->updateToolsLayer();
     scene->addChild(layer, 2);
     
     return scene;
@@ -62,6 +62,18 @@ GameLayer *GameLayer::create(int fund)
     }
 }
 
+void GameLayer::initWidget(Node *toolNode) {
+    this->pauseBtn = static_cast<Sprite*>( toolNode->getChildByTag(19) );
+    this->diceBtn = static_cast<Sprite*>( toolNode->getChildByTag(12) );
+    this->avatarBtn = static_cast<Sprite*>( toolNode->getChildByTag(10) );
+    
+    this->dayTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("day"));
+    this->cashTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("money"));
+    this->ticketTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("ticket"));
+    this->blockTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("block_txt"));
+    this->bombTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("bomb_txt"));
+    this->robotTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("robot_txt"));
+}
 void GameLayer::initTouchListener() {
     auto eventDispatcher = Director::getInstance()->getEventDispatcher();
     auto touchlistener = EventListenerTouchOneByOne::create();
@@ -73,7 +85,7 @@ void GameLayer::initTouchListener() {
 }
 void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
     land->setUp(streetVal, p);
-    this->LandSprites.insertBefore(0, land);
+    this->landSprites.pushFromHead(land);
     this->addChild(land, 3);
 }
 
@@ -84,15 +96,17 @@ void GameLayer::initMap() {
         lt[i] = LTYPE_UNOCCUPIED;
     }
     lt[14]=LTYPE_HOSPITAL; lt[MAP_COL-1]=LTYPE_SHOP;
-    LandSprite *land = LandSprite::create();
-    initLandSprite(land, 0, Position(0, MAP_ROW-1));
+    LandSprite *_land = LandSprite::create();
+    initLandSprite(_land, 0, Position(0, MAP_ROW-1));
     for(int i = 1, y = MAP_ROW-1; i < MAP_COL; i++) {
-        LandSprite *land = LandSprite::create(lt[i]);
+        LandSprite *land = NULL;
+        land = LandSprite::create(lt[i]);
         initLandSprite(land, 200, Position(i, y));
     }
     
     for(int x = MAP_COL-1, j = MAP_ROW-2; j > 0; j--) {
-        LandSprite *land = LandSprite::create(LTYPE_UNOCCUPIED);
+        LandSprite *land = NULL;
+        land = LandSprite::create(LTYPE_UNOCCUPIED);
         initLandSprite(land, 500, Position(x, j));
     }
     
@@ -101,13 +115,15 @@ void GameLayer::initMap() {
     }
     lt[0] = LTYPE_MAGIC; lt[14]=LTYPE_PRISON; lt[MAP_COL-1]=LTYPE_GIFT;
     for(int i = MAP_COL-1, y = 0; i > -1; i--) {
-        LandSprite *land = LandSprite::create(lt[i]);
+        LandSprite *land  = NULL;
+        land = LandSprite::create(lt[i]);
         initLandSprite(land, 300, Position(i, y));
     }
     
     int ld[MAP_ROW] = {0, 20, 80, 100, 40, 80, 60, 0};
     for(int x = 0, j = 1; j < MAP_ROW-1; j++) {
-        LandSprite *land = LandSprite::create(LTYPE_MINE);
+        LandSprite *land  = NULL;
+        land = LandSprite::create(LTYPE_MINE);
         land->data = ld[j];
         initLandSprite(land, 0, Position(x, j));
     }
@@ -120,8 +136,12 @@ GameLayer::GameLayer()
 }
 GameLayer::~GameLayer(){}
 
+void GameLayer::changePOV(Position p) {
+    // Relative position to left bottom of the screen, (1, 2)
+    this->setPosition(-tileSiz * p.x, tileSiz * (MAP_ROW - 1 - p.y));
+}
 DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Position p) {
-    DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = LandSprites.headIte();
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = landSprites.headIte();
     while(iter.hasNextForUp()) {
         if(p.isEqual(iter.getCurrent()->p))
             return iter;
@@ -133,15 +153,43 @@ DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Positio
 void GameLayer::move(int step) {
     // issue: after all the construction... landSprites seems to change into a big list of NULL...
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
+    Vector< FiniteTimeAction * > arrayOfActions;
     for(int i = 0; i < step; i++) {
         cIter.moveFront();
-        playerSprites[turn]->runAction(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
+        arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
     }
+    playerSprites[turn]->runAction(Sequence::create(arrayOfActions));
+}
+void GameLayer::updateToolsLayer() {
+    Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);
+    avatarBtn->setTexture(texture);
+    ostringstream oss;
+    oss << "金钱：" << playerSprites[turn]->cash;
+    cashTxt->setString(oss.str());
+    oss.str("");
+    oss << "点数：" << playerSprites[turn]->ticket;
+    ticketTxt->setString(oss.str());
+    oss.str("");
+    oss << "x" << playerSprites[turn]->items[0];
+    blockTxt->setString(oss.str());
+    oss.str("");
+    oss << "x" << playerSprites[turn]->items[1];
+    bombTxt->setString(oss.str());
+    oss.str("");
+    oss << "x" << playerSprites[turn]->items[2];
+    robotTxt->setString(oss.str());
+}
+void GameLayer::nextTurn() {
+    if(++turn == pnum.size()) {
+        day++;
+        ostringstream oss;
+        oss << "第" << day << "天";
+        dayTxt->setString(oss.str());
+        turn = 0;
+    }
+    updateToolsLayer();
 }
 
-void GameLayer::changePOV(Position p) {
-    // TODO
-}
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
@@ -152,7 +200,8 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     }
     Rect diceBtnRec = diceBtn->getBoundingBox();
     if(diceBtnRec.containsPoint(touchLoc)) {
-        move(rollDice());
+        nextTurn();
+        //move(rollDice());
         // roll dice...
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
@@ -164,7 +213,6 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     prvTouchLoc = touchLoc;
     return true;
 }
-// TODO: make compatible with changePOV
 void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
     Vec2 difference(touchLoc.x - prvTouchLoc.x, touchLoc.y - prvTouchLoc.y);
@@ -178,6 +226,6 @@ void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
 }
 void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
     Point touchLoc = touch->getLocation();
-    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
+    log("x: %f, y: %f", this->getPosition().x, this->getPosition().y);//touchLoc.x, touchLoc.y);
 }
 
