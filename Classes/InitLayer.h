@@ -16,7 +16,9 @@ class InitLayer : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
     static InitLayer *create();
-	static cocos2d::ui::Button** markButtons;
+	static cocos2d::ui::Button* markButtons[4];
+	static cocos2d::ui::TextField* fondField;
+	static cocos2d::ui::Button* playButton;
     InitLayer();
     ~InitLayer();
     

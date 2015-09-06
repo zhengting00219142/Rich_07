@@ -15,7 +15,9 @@ USING_NS_CC;
 using namespace cocostudio::timeline;
 using namespace cocos2d::ui;
 
-cocos2d::ui::Button** InitLayer::markButtons = NULL;
+cocos2d::ui::Button* InitLayer::markButtons[4];
+cocos2d::ui::TextField* InitLayer::fondField = NULL;
+cocos2d::ui::Button* InitLayer::playButton = NULL;
 
 Scene* InitLayer::createScene()
 {
@@ -33,11 +35,11 @@ InitLayer *InitLayer::create()
     auto rootNode = CSLoader::createNode("SetScene.csb");
     ret->addChild(rootNode);
     
-    Button* playBtn = dynamic_cast<Button*>(rootNode->getChildByName("next"));
-    playBtn->addTouchEventListener(CC_CALLBACK_2(InitLayer::playCallback, ret));
+    playButton = dynamic_cast<Button*>(rootNode->getChildByName("next"));
+    playButton->addTouchEventListener(CC_CALLBACK_2(InitLayer::playCallback, ret));
     Button* backBtn = dynamic_cast<Button*>(rootNode->getChildByName("back"));
     backBtn->addTouchEventListener(CC_CALLBACK_2(InitLayer::backCallback, ret));
-    
+	fondField = dynamic_cast<TextField*> (rootNode->getChildByName("moneyInput"));
 	Button* richButtons[4];
 	int i = 0;
 	string richs[4] = {
@@ -52,7 +54,7 @@ InitLayer *InitLayer::create()
 		"richer3marked" ,
 		"richer4marked" ,
 	};
-	markButtons = new Button*[4];
+
 	while (i < 4) {
 		// oss << "rich" << i;
 		richButtons[i] = dynamic_cast<Button*>(rootNode->getChildByName(richs[i]));
@@ -75,8 +77,6 @@ InitLayer *InitLayer::create()
 
 InitLayer::InitLayer(){}
 InitLayer::~InitLayer(){
-	if (markButtons != NULL)
-		delete markButtons;
 }
 
 void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
@@ -84,11 +84,16 @@ void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
     if (type == Widget::TouchEventType::ENDED)
     {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-        // pnum has the correct riches
 
-		
-
-        CCDirector::getInstance()->replaceScene(GameLayer::createScene());
+		// check the fond is reliable.
+		stringstream ss;
+		ss << fondField->getString();
+		int fond = 0;
+		ss >> fond;
+		if (fond >= 10000 && fond <= 50000)
+			CCDirector::getInstance()->replaceScene(GameLayer::createScene(fond));
+		else
+			return;
     }
 }
 void InitLayer::backCallback(Ref* sender, Widget::TouchEventType type)
@@ -118,5 +123,13 @@ void InitLayer::richChooseCallback(Ref* sender, int i) {
 	else {
 		pnum.push_back(i);
 		markButton->setVisible(true);
+	}
+
+	// if pnum is not correct , This is to say , the number of riches is not correct
+	// cannot go to next step
+	if (pnum.size() <= 2) {
+		playButton->setTouchEnabled(false);
+	} else {
+		playButton->setTouchEnabled(true);
 	}
 }
