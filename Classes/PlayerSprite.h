@@ -15,7 +15,6 @@
 class PlayerSprite : public cocos2d::Sprite{
 public:
     // 4 selectable avatar: 0, 1, 2, 3
-    int who;
     Position p;
     
     int facing;

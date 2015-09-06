@@ -8,6 +8,8 @@
 
 #include "Richer.h"
 
+int itemCost[ITEM_KINDS] = {50, 50, 30};
+
 cocos2d::Size winSiz;
 float winMidX;
 float winMidY;

@@ -87,9 +87,9 @@ void ShopLayer::updateTicket() {
     total += (tmp*30);*/
     updateAdd();
     total = 0;
-    total += (add[ITEM_BLOCK] * ITEM_COST_BLOCK);
-    total += (add[ITEM_BOMB] * ITEM_COST_BOMB);
-    total += (add[ITEM_ROBOT] * ITEM_COST_ROBOT);
+    total += (add[ITEM_BLOCK] * itemCost[ITEM_BLOCK]);
+    total += (add[ITEM_BOMB] * itemCost[ITEM_BOMB]);
+    total += (add[ITEM_ROBOT] * itemCost[ITEM_ROBOT]);
     
     stream << total;
     stream >> totalStr;

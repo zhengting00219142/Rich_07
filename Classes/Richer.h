@@ -32,9 +32,7 @@
 // 3 kinds of item
 #define ITEM_KINDS 3
 // costs
-#define ITEM_COST_BLOCK 50
-#define ITEM_COST_BOMB 50
-#define ITEM_COST_ROBOT 30
+extern int itemCost[ITEM_KINDS];
 
 // land type
 #define LTYPE_UNOCCUPIED 0
