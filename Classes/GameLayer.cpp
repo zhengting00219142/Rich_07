@@ -288,7 +288,8 @@ void GameLayer::checkIn() {
             if(playerSprites[turn]->cash < land->streetVal)
                 return;
             // TODO: ask if buy
-            notifyPlayer("自动买房");
+            askPlayer("买不买?");
+            //notifyPlayer("自动买房");
             purchase();
             return;
         case LTYPE_SHOP: {
@@ -370,6 +371,45 @@ void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventTyp
     if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
 }
 
+
+void GameLayer::notifyPlayer(string info) {
+    notice = Layer::create();
+    auto label = Label::createWithTTF(info, "fonts/fangsong.ttf", 60);
+    label->setPosition(Vec2(winMidX, winMidY - label->getContentSize().height));
+    notice->addChild(label);
+    this->getParent()->addChild(notice, 12);
+}
+void GameLayer::askPlayer(string info) {
+    ask = Layer::create();
+    
+    auto label = Label::createWithTTF(info, "fonts/fangsong.ttf", 60);
+    label->setPosition(Vec2(winMidX, winMidY - label->getContentSize().height));
+    ask->addChild(label);
+    
+    auto yesBtn = cocos2d::ui::Button::create();
+    yesBtn->setTouchEnabled(true);
+    yesBtn->loadTextures("makesure.png", "makesure.png");
+    yesBtn->setScale(tileScale/2);
+    yesBtn->setPosition(Position(2, 5).toRealPos());
+    yesBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::yesBtnListener, this));
+    auto noBtn = cocos2d::ui::Button::create();
+    noBtn->setTouchEnabled(true);
+    noBtn->loadTextures("cancel.png", "cancel.png");
+    noBtn->setScale(tileScale/2);
+    noBtn->setPosition(Position(3, 5).toRealPos());
+    noBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::noBtnListener, this));
+    ask->addChild(yesBtn);
+    ask->addChild(noBtn);
+    
+    this->getParent()->addChild(ask, 12);
+    
+}
+void GameLayer::yesBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+    
+}
+void GameLayer::noBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+    
+}
 void GameLayer::goShop() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(ShopLayer::createScene(playerSprites[turn]->ticket));
@@ -377,13 +417,6 @@ void GameLayer::goShop() {
 void GameLayer::goPause() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(PauseLayer::createScene());
-}
-void GameLayer::notifyPlayer(string info) {
-    notice = Layer::create();
-    auto label = Label::createWithTTF(info, "fonts/fangsong.ttf", 70);
-    label->setPosition(Vec2(winMidX, winMidY - label->getContentSize().height));
-    notice->addChild(label);
-    this->getParent()->addChild(notice, 12);
 }
 void GameLayer::shopCallBack(Ref *pSender) {
     initEventListener();
