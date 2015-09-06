@@ -161,6 +161,6 @@ void ShopLayer::noCallback(Ref* sender, Widget::TouchEventType type)
         Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
         CCDirector::getInstance()->popScene();
         clearAdd();
-        NotificationCenter::getInstance()->postNotification("shopCallback");
+        NotificationCenter::getInstance()->postNotification("defaultCallback");
     }
 }

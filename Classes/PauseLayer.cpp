@@ -55,6 +55,7 @@ void PauseLayer::backCallback(Ref* sender, Widget::TouchEventType type)
     {
         Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
         CCDirector::getInstance()->popScene();
+        NotificationCenter::getInstance()->postNotification("defaultCallback");
     }
 }
 void PauseLayer::quitCallback(Ref* sender, Widget::TouchEventType type)

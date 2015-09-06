@@ -93,7 +93,7 @@ void GameLayer::initEventListener() {
 }
 void GameLayer::addObserv() {
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::shopCallBack), "shopCallback", NULL);
-    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::pauseCallBack), "shopCallback", NULL);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::defaultCallBack), "defaultCallback", NULL);
 }
 void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
     land->setUp(streetVal, p);
@@ -147,6 +147,8 @@ GameLayer::GameLayer()
     addObserv();
     initMap();
     isMoving = false;
+    notice = NULL;
+    ask = NULL;
 //    tmpLabel = NULL;
 }
 GameLayer::~GameLayer(){}
@@ -218,6 +220,11 @@ void GameLayer::brokeProcedure(int who) {
 void GameLayer::transfer(int src, int dst, int amout) {
     playerSprites[getTurnWithWho(src)]->cash -= amout;
     playerSprites[getTurnWithWho(dst)]->cash += amout;
+    
+    ostringstream oss;
+    oss << "交租金" << amout << "，不能露宿街头，必须租房子住，破产就破产！";
+    
+    notifyPlayer(oss.str());
     if(playerSprites[getTurnWithWho(src)]->cash < 0)
         brokeProcedure(src);
     //updateCash();
@@ -282,6 +289,8 @@ void GameLayer::checkIn() {
             if(playerSprites[turn]->cash < land->streetVal)
                 return;
             // TODO: ask if buy
+            askPlayer("买不买?");
+            //notifyPlayer("自动买房");
             purchase();
             return;
         case LTYPE_SHOP: {
@@ -320,19 +329,6 @@ void GameLayer::checkIn() {
             }
             return;
     }
-}
-void GameLayer::notifyPlayer(string info) {
-    
-}
-void GameLayer::shopCallBack(Ref *pSender) {
-    initEventListener();
-    for(int i = 0; i < ITEM_KINDS; i++) {
-        playerSprites[turn]->items[i] += add[i];
-    }
-    updateToolsLayer();
-}
-void GameLayer::pauseCallBack(Ref *pSender) {
-    initEventListener();
 }
 
 void GameLayer::updateToolsLayer() {
@@ -376,6 +372,45 @@ void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventTyp
     if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
 }
 
+
+void GameLayer::notifyPlayer(string info) {
+    notice = Layer::create();
+    auto label = Label::createWithTTF(info, "fonts/fangsong.ttf", 60);
+    label->setPosition(Vec2(winMidX, winMidY - label->getContentSize().height));
+    notice->addChild(label);
+    this->getParent()->addChild(notice, 12);
+}
+void GameLayer::askPlayer(string info) {
+    ask = Layer::create();
+    
+    auto label = Label::createWithTTF(info, "fonts/fangsong.ttf", 60);
+    label->setPosition(Vec2(winMidX, winMidY - label->getContentSize().height));
+    ask->addChild(label);
+    
+    auto yesBtn = cocos2d::ui::Button::create();
+    yesBtn->setTouchEnabled(true);
+    yesBtn->loadTextures("makesure.png", "makesure.png");
+    yesBtn->setScale(tileScale/4);
+    yesBtn->setPosition(Position(2, 6).toRealPos()-Vec2(tileSiz/2, 0));
+    yesBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::yesBtnListener, this));
+    auto noBtn = cocos2d::ui::Button::create();
+    noBtn->setTouchEnabled(true);
+    noBtn->loadTextures("cancel.png", "cancel.png");
+    noBtn->setScale(tileScale/4);
+    noBtn->setPosition(Position(3, 6).toRealPos()-Vec2(tileSiz/2, 0));
+    noBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::noBtnListener, this));
+    ask->addChild(yesBtn);
+    ask->addChild(noBtn);
+    
+    this->getParent()->addChild(ask, 12);
+    
+}
+void GameLayer::yesBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+    
+}
+void GameLayer::noBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+    
+}
 void GameLayer::goShop() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(ShopLayer::createScene(playerSprites[turn]->ticket));
@@ -384,10 +419,28 @@ void GameLayer::goPause() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(PauseLayer::createScene());
 }
+void GameLayer::shopCallBack(Ref *pSender) {
+    initEventListener();
+    for(int i = 0; i < ITEM_KINDS; i++) {
+        playerSprites[turn]->items[i] += add[i];
+    }
+    updateToolsLayer();
+}
+void GameLayer::defaultCallBack(Ref *pSender) {
+    initEventListener();
+}
 
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(isMoving) return true;
+    if(notice != NULL) {
+        notice->removeFromParent();
+        notice = NULL;
+        return true;
+    }
+    if(ask != NULL) {
+        return true;
+    }
 //    if(tmpLabel != NULL) {
 //        tmpLabel->removeFromParent();
 //        tmpLabel = NULL;

@@ -36,6 +36,11 @@ class GameLayer : public cocos2d::Layer
     cocos2d::ui::Text *blockTxt;
     cocos2d::ui::Text *bombTxt;
     cocos2d::ui::Text *robotTxt;
+    cocos2d::Layer *notice;
+    cocos2d::Layer *ask;
+    void yesBtnListener(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    void noBtnListener(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+    
     Point prvTouchLoc;
     bool isMoving;
 public:
@@ -54,8 +59,6 @@ public:
     
     void gameOver(int lastLoser);
     int getTurnWithWho(int who);
-    void changePOV(Position p);
-    void notifyPlayer(string info);
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
     void brokeProcedure(int who);
     void transfer(int src, int dst, int amout);
@@ -67,10 +70,14 @@ public:
     bool checkOut();
     void checkIn();
     
+    void changePOV(Position p);
+    void notifyPlayer(string info);
+    void askPlayer(string info);
+    
     void goShop();
     void goPause();
     void shopCallBack(cocos2d::Ref *pSender);
-    void pauseCallBack(cocos2d::Ref *pSender);
+    void defaultCallBack(cocos2d::Ref *pSender);
 };
 
 #endif /* defined(__Richer__GameLayer__) */

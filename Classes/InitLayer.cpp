@@ -84,7 +84,7 @@ void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
     if (type == Widget::TouchEventType::ENDED)
     {
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-
+        // pnum has the correct riches
 		// check the fond is reliable.
 		stringstream ss;
 		ss << fondField->getString();
