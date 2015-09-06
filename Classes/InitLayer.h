@@ -16,11 +16,13 @@ class InitLayer : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
     static InitLayer *create();
+	static cocos2d::ui::Button** markButtons;
     InitLayer();
     ~InitLayer();
     
     void playCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
     void backCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+	void richChooseCallback(Ref* sender, int i);
 };
 
 #endif /* defined(__Richer__InitLayer__) */
