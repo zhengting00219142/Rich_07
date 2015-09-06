@@ -15,7 +15,6 @@
 class PlayerSprite : public cocos2d::Sprite{
 public:
     // 4 selectable avatar: 0, 1, 2, 3
-    int who;
     Position p;
     
     int facing;
@@ -25,7 +24,7 @@ public:
     int items[ITEM_KINDS];
     std::vector<LandSprite *> properties;
     
-    static PlayerSprite *create(int who, int fund);
+    static PlayerSprite *create(int fund);
     PlayerSprite();
     
     void move2Spot(Position dst);

@@ -8,10 +8,9 @@
 
 #include "PlayerSprite.h"
 
-PlayerSprite* PlayerSprite::create(int who, int fund)
+PlayerSprite* PlayerSprite::create(int fund)
 {
     PlayerSprite *sprite = new (std::nothrow) PlayerSprite();
-    sprite->who = who;
     sprite->facing = FACING_CLK;
     // init fund
     sprite->cash = fund;

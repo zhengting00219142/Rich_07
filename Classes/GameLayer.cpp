@@ -44,7 +44,7 @@ GameLayer *GameLayer::create(int fund)
     
     // init players
     for(int i = 0; i < pnum.size(); i++) {
-        PlayerSprite *player = PlayerSprite::create(pnum[i], fund);
+        PlayerSprite *player = PlayerSprite::create(fund);
         player->p = Position(0, MAP_ROW-1);
         ret->playerSprites.push_back(player);
         player->setPosition(player->p.toRealPos());
@@ -177,7 +177,7 @@ DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Positio
 }
 
 void GameLayer::gameOver(int lastLoser) {
-    int winner = playerSprites[++turn%2]->who;
+    int winner = pnum[++turn%2];
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->replaceScene(OverLayer::createScene(winner));
 }
@@ -230,11 +230,18 @@ void GameLayer::transfer(int src, int dst, int amout) {
     //updateCash();
 }
 void GameLayer::purchase() {
-    LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
-    playerSprites[turn]->cash -= land->streetVal;
-    playerSprites[turn]->properties.push_back(land);
+    PlayerSprite *player = playerSprites[turn];
+    LandSprite *land = locateLand(player->p).getCurrent();
+    player->cash -= land->streetVal;
+    player->properties.push_back(land);
     land->levelUp(pnum[turn]);
     //updateCash();
+}
+void GameLayer::purchase_levelup() {
+    PlayerSprite *player = playerSprites[turn];
+    LandSprite *land = locateLand(player->p).getCurrent();
+    playerSprites[turn]->cash -= land->streetVal;
+    land->levelUp(pnum[turn]);
 }
 void GameLayer::move(int step) {
     // issue: after all the construction... landSprites seems to change into a big list of NULL...
@@ -261,7 +268,6 @@ void GameLayer::move(int step) {
 void GameLayer::moveAnimCallback() {
     isMoving = false;
     checkIn();
-    nextTurn();
 }
 bool GameLayer::checkOut() {
     int status = playerSprites[turn]->status;
@@ -287,29 +293,28 @@ void GameLayer::checkIn() {
     switch(land->type) {
         case LTYPE_UNOCCUPIED:
             if(playerSprites[turn]->cash < land->streetVal)
-                return;
-            // TODO: ask if buy
-            askPlayer("买不买?");
+                break;
+            oss << "买不买，钩还是叉，一口价，" << land->streetVal << "？";
+            tag = TAG_PURCHASE;
+            askPlayer(oss.str());
             //notifyPlayer("自动买房");
-            purchase();
             return;
         case LTYPE_SHOP: {
             // not enough ticket
-            if(playerSprites[turn]->ticket < ITEM_COST_ROBOT)
-                return;
+            if(playerSprites[turn]->ticket < itemCost[ITEM_ROBOT])
+                break;
             goShop();
             return;
         }
-        case LTYPE_GIFT: return;
-        case LTYPE_MAGIC: return;
+        case LTYPE_GIFT: break;
+        case LTYPE_MAGIC: break;
         case LTYPE_HOSPITAL:
-        case LTYPE_PRISON: return;
+        case LTYPE_PRISON: break;
         case LTYPE_MINE:
             playerSprites[turn]->ticket += land->data;
             oss << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
             notifyPlayer(oss.str());
-            log("%s", oss.str().c_str());
-            return;
+            break;
         default:
             // TODO
             if(land->owner != pnum[turn]) {
@@ -318,17 +323,17 @@ void GameLayer::checkIn() {
                     amout/=2;
                 transfer(pnum[turn], land->owner, amout);
             }
-            else if(land->type == LTYPE_MAXLV) return;
+            else if(land->type == LTYPE_MAXLV) break;
             else {
                 if(playerSprites[turn]->cash < land->streetVal)
-                    return;
-                // TODO: ask if level u
-                playerSprites[turn]->cash -= land->streetVal;
-                land->levelUp(pnum[turn]);
-                //updateCash();
+                    break;
+                oss << "升不升级，升级牛逼，一口价" << land->streetVal << "！";
+                tag = TAG_LEVELUP;
+                askPlayer(oss.str());
+                return;
             }
-            return;
     }
+    nextTurn();
 }
 
 void GameLayer::updateToolsLayer() {
@@ -406,10 +411,17 @@ void GameLayer::askPlayer(string info) {
     
 }
 void GameLayer::yesBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
-    
+    if(tag == TAG_PURCHASE)
+        purchase();
+    else if(tag == TAG_LEVELUP)
+        purchase_levelup();
+    noBtnListener(sender, type);
 }
 void GameLayer::noBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
-    
+    Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(ask);
+    ask->removeFromParent();
+    ask = NULL;
+    nextTurn();
 }
 void GameLayer::goShop() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
@@ -421,8 +433,10 @@ void GameLayer::goPause() {
 }
 void GameLayer::shopCallBack(Ref *pSender) {
     initEventListener();
+    PlayerSprite *player = playerSprites[turn];
     for(int i = 0; i < ITEM_KINDS; i++) {
-        playerSprites[turn]->items[i] += add[i];
+        player->items[i] += add[i];
+        player->ticket -= (add[i] * itemCost[i]);
     }
     updateToolsLayer();
 }

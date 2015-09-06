@@ -63,6 +63,7 @@ public:
     void brokeProcedure(int who);
     void transfer(int src, int dst, int amout);
     void purchase();
+    void purchase_levelup();
     void move(int step);
     void moveAnimCallback();
     void updateToolsLayer();
@@ -73,6 +74,9 @@ public:
     void changePOV(Position p);
     void notifyPlayer(string info);
     void askPlayer(string info);
+    int tag;
+    int TAG_PURCHASE = 0;
+    int TAG_LEVELUP = 1;
     
     void goShop();
     void goPause();
