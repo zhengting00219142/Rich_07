@@ -22,12 +22,19 @@
 #define STATUS_INPRISON 100
 #define STATUS_MONEYGOD 1000
 
+#define FACING_CLK 1
+#define FACING_CCLK 0
+
 // items
 #define ITEM_BLOCK 0
 #define ITEM_BOMB 1
 #define ITEM_ROBOT 2
 // 3 kinds of item
 #define ITEM_KINDS 3
+// costs
+#define ITEM_COST_BLOCK 50
+#define ITEM_COST_BOMB 50
+#define ITEM_COST_ROBOT 30
 
 // land type
 #define LTYPE_UNOCCUPIED 0
@@ -67,12 +74,14 @@ public:
     void setPosition(int x, int y);
     bool isEqual(Position other);
     cocos2d::Vec2 toRealPos();
+    cocos2d::Vec2 toRealPosAbove();
 };
 
 // size: 2~4
 extern std::vector<int> pnum;
 extern int turn;
 extern int day;
+extern int add[ITEM_KINDS];
 
 extern std::string pavatar[4];
 extern std::string houseImg[4][4];
@@ -80,6 +89,7 @@ extern std::string houseImg[4][4];
 int string2Int(std::string str);
 int rollDice();
 
+void clearAdd();
 void initWinSiz();
 void resetGame();
 #endif

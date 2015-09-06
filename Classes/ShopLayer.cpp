@@ -14,6 +14,14 @@ USING_NS_CC;
 using namespace cocostudio::timeline;
 using namespace cocos2d::ui;
 
+Scene* ShopLayer::createScene(int hold)
+{
+    auto scene = Scene::create();
+    auto layer = ShopLayer::create(hold);
+    scene->addChild(layer, 3);
+    return scene;
+}
+
 ShopLayer *ShopLayer::create(int hold)
 {
     ShopLayer *ret = new (std::nothrow) ShopLayer();
@@ -58,6 +66,7 @@ ShopLayer *ShopLayer::create(int hold)
 ShopLayer::ShopLayer(){}
 ShopLayer::~ShopLayer(){}
 
+
 void ShopLayer::updateAdd() {
     add[0] = string2Int(blockTF->getString());
     add[1] = string2Int(bombTF->getString());
@@ -78,9 +87,9 @@ void ShopLayer::updateTicket() {
     total += (tmp*30);*/
     updateAdd();
     total = 0;
-    total += (add[0] * 50);
-    total += (add[1] * 50);
-    total += (add[2] * 30);
+    total += (add[ITEM_BLOCK] * ITEM_COST_BLOCK);
+    total += (add[ITEM_BOMB] * ITEM_COST_BOMB);
+    total += (add[ITEM_ROBOT] * ITEM_COST_ROBOT);
     
     stream << total;
     stream >> totalStr;
@@ -90,7 +99,9 @@ void ShopLayer::updateTicket() {
 void ShopLayer::blockTFEvent(cocos2d::Ref *pSender, cocos2d::ui::TextFiledEventType type) {
     switch (type)
     {
-        case TextFiledEventType::TEXTFIELD_EVENT_ATTACH_WITH_IME:break;
+        case TextFiledEventType::TEXTFIELD_EVENT_ATTACH_WITH_IME:
+            updateTicket();
+            break;
         case TextFiledEventType::TEXTFIELD_EVENT_INSERT_TEXT:
             // TODO: only accept input when they are digits
             break;
@@ -118,7 +129,9 @@ void ShopLayer::bombTFEvent(cocos2d::Ref *pSender, cocos2d::ui::TextFiledEventTy
 void ShopLayer::robotTFEvent(cocos2d::Ref *pSender, cocos2d::ui::TextFiledEventType type) {
     switch (type)
     {
-        case TextFiledEventType::TEXTFIELD_EVENT_ATTACH_WITH_IME:break;
+        case TextFiledEventType::TEXTFIELD_EVENT_ATTACH_WITH_IME:
+            updateTicket();
+            break;
         case TextFiledEventType::TEXTFIELD_EVENT_INSERT_TEXT:break;
         case TextFiledEventType::TEXTFIELD_EVENT_DETACH_WITH_IME:
             updateTicket();
@@ -134,7 +147,9 @@ void ShopLayer::yesCallback(Ref* sender, Widget::TouchEventType type)
         updateTicket();
         if(total > hold) return;
         else {
-            //NotificationCenter::getInstance()->postNotification("answer_yes");
+            Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
+            CCDirector::getInstance()->popScene();
+            NotificationCenter::getInstance()->postNotification("shopCallback");
             //Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
         }
     }
@@ -143,7 +158,9 @@ void ShopLayer::noCallback(Ref* sender, Widget::TouchEventType type)
 {
     if (type == Widget::TouchEventType::ENDED)
     {
-        this->removeFromParent();
-        return;
+        Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
+        CCDirector::getInstance()->popScene();
+        clearAdd();
+        NotificationCenter::getInstance()->postNotification("shopCallback");
     }
 }

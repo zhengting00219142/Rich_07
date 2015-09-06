@@ -18,6 +18,7 @@ public:
     int who;
     Position p;
     
+    int facing;
     int cash;
     int ticket;
     int status;

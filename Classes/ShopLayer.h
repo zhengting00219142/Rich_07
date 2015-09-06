@@ -15,12 +15,12 @@ class ShopLayer : public cocos2d::Layer
 {
     int hold;
     int total;
-    int add[ITEM_KINDS];
     cocos2d::ui::Text *totalTicket;
     cocos2d::ui::TextField *blockTF;
     cocos2d::ui::TextField *bombTF;
     cocos2d::ui::TextField *robotTF;
 public:
+    static cocos2d::Scene* createScene(int hold);
     static ShopLayer *create(int hold);
     ShopLayer();
     ~ShopLayer();

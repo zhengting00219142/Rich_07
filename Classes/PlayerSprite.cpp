@@ -12,9 +12,10 @@ PlayerSprite* PlayerSprite::create(int who, int fund)
 {
     PlayerSprite *sprite = new (std::nothrow) PlayerSprite();
     sprite->who = who;
+    sprite->facing = FACING_CLK;
     // init fund
     sprite->cash = fund;
-    sprite->ticket = 0;
+    sprite->ticket = 20000;
     sprite->status = STATUS_NORM;
     // init items
     for(int i = 0; i < ITEM_KINDS; i++) {

@@ -82,7 +82,7 @@ void GameLayer::initWidget(Node *toolNode) {
     this->bombTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("bomb_txt"));
     this->robotTxt = dynamic_cast<ui::Text*>(toolNode->getChildByName("robot_txt"));
 }
-void GameLayer::initTouchListener() {
+void GameLayer::initEventListener() {
     auto eventDispatcher = Director::getInstance()->getEventDispatcher();
     auto touchlistener = EventListenerTouchOneByOne::create();
     touchlistener->setSwallowTouches(true);
@@ -90,6 +90,10 @@ void GameLayer::initTouchListener() {
     touchlistener->onTouchMoved = CC_CALLBACK_2(GameLayer::touchMoved, this);
     touchlistener->onTouchEnded = CC_CALLBACK_2(GameLayer::touchEnded, this);
     eventDispatcher->addEventListenerWithFixedPriority(touchlistener, 1);
+}
+void GameLayer::addObserv() {
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::shopCallBack), "shopCallback", NULL);
+    NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::pauseCallBack), "shopCallback", NULL);
 }
 void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
     land->setUp(streetVal, p);
@@ -139,8 +143,11 @@ void GameLayer::initMap() {
 
 GameLayer::GameLayer()
 {
-    initTouchListener();
+    initEventListener();
+    addObserv();
     initMap();
+    isMoving = false;
+//    tmpLabel = NULL;
 }
 GameLayer::~GameLayer(){}
 
@@ -213,22 +220,30 @@ void GameLayer::transfer(int src, int dst, int amout) {
     playerSprites[getTurnWithWho(dst)]->cash += amout;
     if(playerSprites[getTurnWithWho(src)]->cash < 0)
         brokeProcedure(src);
-    updateCash();
+    //updateCash();
 }
 void GameLayer::purchase() {
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     playerSprites[turn]->cash -= land->streetVal;
     playerSprites[turn]->properties.push_back(land);
     land->levelUp(pnum[turn]);
-    updateCash();
+    //updateCash();
 }
 void GameLayer::move(int step) {
     // issue: after all the construction... landSprites seems to change into a big list of NULL...
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
     Vector< FiniteTimeAction * > arrayOfActions;
-    for(int i = 0; i < step; i++) {
-        cIter.moveBack();
-        arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
+    if(playerSprites[turn]->facing == FACING_CLK) {
+        for(int i = 0; i < step; i++) {
+            cIter.moveBack();
+            arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
+        }
+    }
+    else {
+        for(int i = 0; i < step; i++) {
+            cIter.moveFront();
+            arrayOfActions.pushBack(MoveTo::create(1/6.0, cIter.getCurrent()->p.toRealPos()));
+        }
     }
     arrayOfActions.pushBack(CallFunc::create(CC_CALLBACK_0(GameLayer::moveAnimCallback, this)));
     playerSprites[turn]->p = cIter.getCurrent()->p;
@@ -243,19 +258,21 @@ void GameLayer::moveAnimCallback() {
 }
 bool GameLayer::checkOut() {
     int status = playerSprites[turn]->status;
-    if(status == STATUS_NORM) return true;
+    bool ret = true;
+    if(status == STATUS_NORM) ret = true;
+    if(status / STATUS_MONEYGOD % 10) {
+        playerSprites[turn]->status -= STATUS_MONEYGOD;
+        ret = true;
+    }
     if(status / STATUS_INJURED % 10) {
         playerSprites[turn]->status -= STATUS_INJURED;
-        return false;
+        ret = false;
     }
     if(status / STATUS_INPRISON % 10) {
         playerSprites[turn]->status -= STATUS_INPRISON;
-        return false;
+        ret = false;
     }
-    if(status / STATUS_MONEYGOD % 10) {
-        playerSprites[turn]->status -= STATUS_MONEYGOD;
-        return true;
-    }
+    return ret;
 }
 void GameLayer::checkIn() {
     ostringstream oss;
@@ -268,8 +285,10 @@ void GameLayer::checkIn() {
             purchase();
             return;
         case LTYPE_SHOP: {
-//            auto shop = ShopLayer::create(playerSprites[turn]->ticket);
-//            this->addChild(shop, 10);
+            // not enough ticket
+            if(playerSprites[turn]->ticket < ITEM_COST_ROBOT)
+                return;
+            goShop();
             return;
         }
         case LTYPE_GIFT: return;
@@ -297,18 +316,23 @@ void GameLayer::checkIn() {
                 // TODO: ask if level u
                 playerSprites[turn]->cash -= land->streetVal;
                 land->levelUp(pnum[turn]);
-                updateCash();
+                //updateCash();
             }
             return;
     }
 }
-void GameLayer::updateCash() {
-    ostringstream oss;
-    oss << "金钱：" << playerSprites[turn]->cash;
-    cashTxt->setString(oss.str());
-}
 void GameLayer::notifyPlayer(string info) {
     
+}
+void GameLayer::shopCallBack(Ref *pSender) {
+    initEventListener();
+    for(int i = 0; i < ITEM_KINDS; i++) {
+        playerSprites[turn]->items[i] += add[i];
+    }
+    updateToolsLayer();
+}
+void GameLayer::pauseCallBack(Ref *pSender) {
+    initEventListener();
 }
 
 void GameLayer::updateToolsLayer() {
@@ -343,6 +367,7 @@ void GameLayer::nextTurn() {
 
 void GameLayer::blockBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     if(playerSprites[turn]->items[ITEM_BLOCK] == 0) return;
+    
 }
 void GameLayer::bombBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     if(playerSprites[turn]->items[ITEM_BOMB] == 0) return;
@@ -351,13 +376,27 @@ void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventTyp
     if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
 }
 
+void GameLayer::goShop() {
+    Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+    CCDirector::getInstance()->pushScene(ShopLayer::createScene(playerSprites[turn]->ticket));
+}
+void GameLayer::goPause() {
+    Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+    CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+}
+
 // touch methods, help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(isMoving) return true;
+//    if(tmpLabel != NULL) {
+//        tmpLabel->removeFromParent();
+//        tmpLabel = NULL;
+//        return true;
+//    }
     Point touchLoc = touch->getLocation();
     Rect pauseBtnRec = pauseBtn->getBoundingBox();
     if(pauseBtnRec.containsPoint(touchLoc)) {
-        CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+        goPause();
         return true;
     }
     Rect diceBtnRec = diceBtn->getBoundingBox();
@@ -374,6 +413,24 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
         CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
         return true;
     }
+    
+//    Vec2 currentPos = this->getPosition();
+//    for(int i = 0; i < pnum.size(); i++) {
+//        for(int j = 0; j < playerSprites[i]->properties.size(); j++) {
+//            LandSprite *land = playerSprites[i]->properties[j];
+//            Rect r = land->getBoundingBox();
+//            Vec2 rp = land->p.toRealPos();
+//            if(Rect(rp.x, rp.y, tileSiz, tileSiz).containsPoint(touchLoc)) {
+//                ostringstream oss;
+//                oss << "worth: " << land->data;
+//                tmpLabel = Label::createWithTTF(oss.str(), "fonts/Marker Felt.ttf", 40);
+//                tmpLabel->setPosition(land->p.toRealPosAbove());
+//                this->addChild(tmpLabel, 10);
+//                return true;
+//            }
+//        }
+//    }
+    
     prvTouchLoc = touchLoc;
     return true;
 }
@@ -389,6 +446,6 @@ void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
     prvTouchLoc = touchLoc;
 }
 void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
-    //Point touchLoc = touch->getLocation();
-    //log("x: %f, y: %f", this->getPosition().x, this->getPosition().y);//touchLoc.x, touchLoc.y);
+    Point touchLoc = touch->getLocation();
+    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
 }

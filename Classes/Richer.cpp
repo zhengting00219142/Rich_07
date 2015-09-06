@@ -20,6 +20,7 @@ float mapHeight, mapWidth;
 std::vector<int> pnum;
 int turn;
 int day;
+int add[ITEM_KINDS];
 
 std::string pavatar[4] = {"richer1.png", "richer2.png", "richer3.png", "richer4.png"};
 std::string houseImg[4][4] = {
@@ -40,6 +41,10 @@ int rollDice() {
     return rand() % 6 + 1;
 }
 
+void clearAdd() {
+    for(int i = 0; i < ITEM_KINDS; i++)
+        add[i] = 0;
+}
 void initWinSiz() {
     winSiz = cocos2d::Director::getInstance()->getWinSize();
     winMidX = winSiz.width/2;
@@ -75,6 +80,9 @@ bool Position::isEqual(Position other) {
 }
 cocos2d::Vec2 Position::toRealPos() {
     return cocos2d::Vec2(x*tileSiz + offsetX, y*tileSiz + offsetY);
+}
+cocos2d::Vec2 Position::toRealPosAbove() {
+    return cocos2d::Vec2(x*tileSiz + offsetX, (y+0.6)*tileSiz + offsetY);
 }
 
 void resetGame() {

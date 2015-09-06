@@ -19,6 +19,8 @@ class GameLayer : public cocos2d::Layer
     std::vector<PlayerSprite *> playerSprites;
     DoubleDList<LandSprite *> landSprites;
 
+//    Label* tmpLabel;
+    
     Sprite *pauseBtn;
     Sprite *avatarBtn;
     Sprite *diceBtn;
@@ -42,7 +44,8 @@ public:
     GameLayer();
     ~GameLayer();
     void initWidget(cocos2d::Node *toolNode);
-    void initTouchListener();
+    void initEventListener();
+    void addObserv();
     void initLandSprite(LandSprite *land, int streetVal, Position p);
     void initMap();
     bool touchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
@@ -59,11 +62,15 @@ public:
     void purchase();
     void move(int step);
     void moveAnimCallback();
-    void updateCash();
     void updateToolsLayer();
     void nextTurn();
     bool checkOut();
     void checkIn();
+    
+    void goShop();
+    void goPause();
+    void shopCallBack(cocos2d::Ref *pSender);
+    void pauseCallBack(cocos2d::Ref *pSender);
 };
 
 #endif /* defined(__Richer__GameLayer__) */
