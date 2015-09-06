@@ -148,6 +148,7 @@ GameLayer::GameLayer()
     initMap();
     isMoving = false;
     notice = NULL;
+    ask = NULL;
 //    tmpLabel = NULL;
 }
 GameLayer::~GameLayer(){}
@@ -389,14 +390,14 @@ void GameLayer::askPlayer(string info) {
     auto yesBtn = cocos2d::ui::Button::create();
     yesBtn->setTouchEnabled(true);
     yesBtn->loadTextures("makesure.png", "makesure.png");
-    yesBtn->setScale(tileScale/2);
-    yesBtn->setPosition(Position(2, 5).toRealPos());
+    yesBtn->setScale(tileScale/4);
+    yesBtn->setPosition(Position(2, 6).toRealPos()-Vec2(tileSiz/2, 0));
     yesBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::yesBtnListener, this));
     auto noBtn = cocos2d::ui::Button::create();
     noBtn->setTouchEnabled(true);
     noBtn->loadTextures("cancel.png", "cancel.png");
-    noBtn->setScale(tileScale/2);
-    noBtn->setPosition(Position(3, 5).toRealPos());
+    noBtn->setScale(tileScale/4);
+    noBtn->setPosition(Position(3, 6).toRealPos()-Vec2(tileSiz/2, 0));
     noBtn->addTouchEventListener(CC_CALLBACK_2(GameLayer::noBtnListener, this));
     ask->addChild(yesBtn);
     ask->addChild(noBtn);
@@ -435,6 +436,9 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(notice != NULL) {
         notice->removeFromParent();
         notice = NULL;
+        return true;
+    }
+    if(ask != NULL) {
         return true;
     }
 //    if(tmpLabel != NULL) {

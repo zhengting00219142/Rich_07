@@ -86,7 +86,7 @@ void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
         Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         // pnum has the correct riches
 
-		
+//        pnum.clear();pnum.push_back(2);pnum.push_back(0);pnum.push_back(1);
 
         CCDirector::getInstance()->replaceScene(GameLayer::createScene());
     }
