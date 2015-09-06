@@ -75,21 +75,23 @@ void ShopLayer::updateAdd() {
 void ShopLayer::updateTicket() {
     std::stringstream stream;
     std::string totalStr;
-    /*
+    int tmp;
+    
     stream << blockTF->getString();
     stream >> tmp; stream.str("");
-    total += (tmp*50);
+    total += (tmp*itemCost[ITEM_BLOCK]);
     stream << bombTF->getString();
     stream >> tmp; stream.str("");
-    total += (tmp*50);
+    total += (tmp*itemCost[ITEM_BOMB]);
     stream << robotTF->getString();
     stream >> tmp; stream.str("");
-    total += (tmp*30);*/
-    updateAdd();
-    total = 0;
-    total += (add[ITEM_BLOCK] * itemCost[ITEM_BLOCK]);
-    total += (add[ITEM_BOMB] * itemCost[ITEM_BOMB]);
-    total += (add[ITEM_ROBOT] * itemCost[ITEM_ROBOT]);
+    total += (tmp*itemCost[ITEM_ROBOT]);
+    stream.str("");
+//    updateAdd();
+//    total = 0;
+//    total += (add[ITEM_BLOCK] * itemCost[ITEM_BLOCK]);
+//    total += (add[ITEM_BOMB] * itemCost[ITEM_BOMB]);
+//    total += (add[ITEM_ROBOT] * itemCost[ITEM_ROBOT]);
     
     stream << total;
     stream >> totalStr;
@@ -150,7 +152,6 @@ void ShopLayer::yesCallback(Ref* sender, Widget::TouchEventType type)
             Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
             CCDirector::getInstance()->popScene();
             NotificationCenter::getInstance()->postNotification("shopCallback");
-            //Director::getInstance()->getEventDispatcher()->removeEventListenersForTarget(this);
         }
     }
 }

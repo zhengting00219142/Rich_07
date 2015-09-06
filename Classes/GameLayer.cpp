@@ -6,7 +6,6 @@
 //
 //
 
-#include <sstream>
 #include "GameLayer.h"
 #include "ShopLayer.h"
 #include "PauseLayer.h"
@@ -175,9 +174,9 @@ void GameLayer::transfer(int src, int dst, int amout) {
     playerSprites[getTurnWithWho(src)]->cash -= amout;
     playerSprites[getTurnWithWho(dst)]->cash += amout;
     
-    ostringstream oss;
-    oss << "交租金" << amout << "，不能露宿街头，必须租房子住，破产就破产！";
-    notifyPlayer(oss.str());
+    stringHelper.str("");
+    stringHelper << "交租金" << amout << "，不能露宿街头，必须租房子住，破产就破产！";
+    notifyPlayer(stringHelper.str());
     
     if(playerSprites[getTurnWithWho(src)]->cash < 0)
         brokeProcedure(src);
@@ -267,7 +266,6 @@ bool GameLayer::checkOut() {
     return ret;
 }
 void GameLayer::checkIn() {
-    ostringstream oss;
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     switch(land->type) {
         case LTYPE_UNOCCUPIED:
@@ -275,9 +273,10 @@ void GameLayer::checkIn() {
             if(playerSprites[turn]->cash < land->streetVal)
                 break;
             // ask if buy
-            oss << "买不买，钩还是叉，一口价" << land->streetVal << "？";
+            stringHelper.str("");
+            stringHelper << "买不买，钩还是叉，一口价" << land->streetVal << "？";
             tag = TAG_PURCHASE;
-            askPlayer(oss.str());
+            askPlayer(stringHelper.str());
             return;
         case LTYPE_SHOP:
             // not enough ticket
@@ -295,8 +294,9 @@ void GameLayer::checkIn() {
         case LTYPE_PRISON: break;
         case LTYPE_MINE:
             playerSprites[turn]->ticket += land->data;
-            oss << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
-            notifyPlayer(oss.str());
+            stringHelper.str("");
+            stringHelper << "辛苦搬砖一天一夜，获得" << land->data << "点券！";
+            notifyPlayer(stringHelper.str());
             break;
         default:
             // Land type left are: lv1, lv2, maxlv
@@ -311,9 +311,10 @@ void GameLayer::checkIn() {
                 // not enough cash for the level-up
                 if(playerSprites[turn]->cash < land->streetVal)
                     break;
-                oss << "就说升不升级，升级牛逼，一口价" << land->streetVal << "！";
+                stringHelper.str("");
+                stringHelper << "就说升不升级，升级牛逼，一口价" << land->streetVal << "！";
                 tag = TAG_LEVELUP;
-                askPlayer(oss.str());
+                askPlayer(stringHelper.str());
                 return;
             }
     }
@@ -360,9 +361,9 @@ DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Positio
 void GameLayer::nextTurn() {
     if(++turn == pnum.size()) {
         day++;
-        ostringstream oss;
-        oss << "第" << day << "天";
-        dayTxt->setString(oss.str());
+        stringHelper.str("");
+        stringHelper << "第" << day << "天";
+        dayTxt->setString(stringHelper.str());
         turn = 0;
     }
     updateToolsLayer();
@@ -371,21 +372,21 @@ void GameLayer::nextTurn() {
 void GameLayer::updateToolsLayer() {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(pavatar[pnum[turn]]);
     avatarBtn->setTexture(texture);
-    ostringstream oss;
-    oss << "金钱：" << playerSprites[turn]->cash;
-    cashTxt->setString(oss.str());
-    oss.str("");
-    oss << "点数：" << playerSprites[turn]->ticket;
-    ticketTxt->setString(oss.str());
-    oss.str("");
-    oss << "x" << playerSprites[turn]->items[ITEM_BLOCK];
-    blockTxt->setString(oss.str());
-    oss.str("");
-    oss << "x" << playerSprites[turn]->items[ITEM_BOMB];
-    bombTxt->setString(oss.str());
-    oss.str("");
-    oss << "x" << playerSprites[turn]->items[ITEM_ROBOT];
-    robotTxt->setString(oss.str());
+    stringHelper.str("");
+    stringHelper << "金钱：" << playerSprites[turn]->cash;
+    cashTxt->setString(stringHelper.str());
+    stringHelper.str("");
+    stringHelper << "点数：" << playerSprites[turn]->ticket;
+    ticketTxt->setString(stringHelper.str());
+    stringHelper.str("");
+    stringHelper << "x" << playerSprites[turn]->items[ITEM_BLOCK];
+    blockTxt->setString(stringHelper.str());
+    stringHelper.str("");
+    stringHelper << "x" << playerSprites[turn]->items[ITEM_BOMB];
+    bombTxt->setString(stringHelper.str());
+    stringHelper.str("");
+    stringHelper << "x" << playerSprites[turn]->items[ITEM_ROBOT];
+    robotTxt->setString(stringHelper.str());
 }
 
 void GameLayer::notifyPlayer(string info) {

@@ -10,6 +10,7 @@
 #define __Richer__GameLayer__
 
 #include "Richer.h"
+#include <sstream>
 #include "DoubleDList.h"
 #include "PlayerSprite.h"
 #include "LandSprite.h"
@@ -54,6 +55,7 @@ class GameLayer : public cocos2d::Layer
         int TAG_LEVELUP = 1;
 
     Point prvTouchLoc;
+    ostringstream stringHelper;
     bool isMoving;
 public:
     /////////////////////////////////////////////////////////////////////////////////////////////////////
