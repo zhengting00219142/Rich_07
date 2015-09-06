@@ -28,6 +28,9 @@ public:
     PlayerSprite();
     
     void move2Spot(Position dst);
+    void purchaseLand(LandSprite *land);
+    void levelupLand(LandSprite *land);
+    
     int getNetWorth();
 };
 

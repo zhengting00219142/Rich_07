@@ -16,15 +16,20 @@ USING_NS_CC;
 
 using namespace cocostudio::timeline;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Initalization
+
 Scene* GameLayer::createScene(int fund)
 {
     auto scene = Scene::create();
 
+    // holds the back ground
     auto bgLayer = Layer::create();
     auto bgNode = CSLoader::createNode("BgLayer.csb");
     bgLayer->addChild(bgNode);
     scene->addChild(bgLayer, 1);
 
+    // holds the buttons, labels for day, cash and such
     auto toolsLayer = Layer::create();
     auto toolNode = CSLoader::createNode("ToolsLayer.csb");
     toolsLayer->addChild(toolNode);
@@ -63,6 +68,18 @@ GameLayer *GameLayer::create(int fund)
     }
 }
 
+GameLayer::GameLayer()
+{
+    initEventListener();
+    addObserv();
+    initMap();
+    isMoving = false;
+    notice = NULL;
+    ask = NULL;
+    //    tmpLabel = NULL;
+}
+GameLayer::~GameLayer(){}
+
 void GameLayer::initWidget(Node *toolNode) {
     this->pauseBtn = static_cast<Sprite*>( toolNode->getChildByTag(19) );
     this->diceBtn = static_cast<Sprite*>( toolNode->getChildByTag(12) );
@@ -95,11 +112,9 @@ void GameLayer::addObserv() {
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::shopCallBack), "shopCallback", NULL);
     NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(GameLayer::defaultCallBack), "defaultCallback", NULL);
 }
-void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
-    land->setUp(streetVal, p);
-    this->landSprites.pushFromHead(land);
-    this->addChild(land, 3);
-}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Game Map
 
 void GameLayer::initMap() {
     // land type[]
@@ -141,51 +156,39 @@ void GameLayer::initMap() {
     }
 }
 
-GameLayer::GameLayer()
-{
-    initEventListener();
-    addObserv();
-    initMap();
-    isMoving = false;
-    notice = NULL;
-    ask = NULL;
-//    tmpLabel = NULL;
+// helper method for initMap()
+void GameLayer::initLandSprite(LandSprite *land, int streetVal, Position p) {
+    land->setUp(streetVal, p);
+    this->landSprites.pushFromHead(land);
+    this->addChild(land, 3);
 }
-GameLayer::~GameLayer(){}
 
-int GameLayer::getTurnWithWho(int who) {
-    for(int i = 0; i < playerSprites.size(); i++) {
-        if(pnum[i] == who)
-            return i;
-    }
-    return 0;
-}
 void GameLayer::changePOV(Position p) {
     // Relative position to left bottom of the screen, (1, 2)
     this->setPosition(-tileSiz * p.x, tileSiz * (MAP_ROW - 1 - p.y));
 }
-DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Position p) {
-    DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = landSprites.headIte();
-    LandSprite *tmp = iter.getCurrent();
-    if(iter.getCurrent() == NULL) return NULL;
-    do{
-        if(p.isEqual(iter.getCurrent()->p))
-            return iter;
-        iter.moveBack();
-    } while(iter.getCurrent() != tmp);
-    return NULL;
-}
 
-void GameLayer::gameOver(int lastLoser) {
-    int winner = pnum[++turn%2];
-    Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-    CCDirector::getInstance()->replaceScene(OverLayer::createScene(winner));
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Game Logic
+
+void GameLayer::transfer(int src, int dst, int amout) {
+    playerSprites[getTurnWithWho(src)]->cash -= amout;
+    playerSprites[getTurnWithWho(dst)]->cash += amout;
+    
+    ostringstream oss;
+    oss << "交租金" << amout << "，不能露宿街头，必须租房子住，破产就破产！";
+    notifyPlayer(oss.str());
+    
+    if(playerSprites[getTurnWithWho(src)]->cash < 0)
+        brokeProcedure(src);
 }
 void GameLayer::brokeProcedure(int who) {
+    // if there is only two player left and one of them tis broke, then the other must be the winner
     if(playerSprites.size() == 2) {
         gameOver(who);
         return;
     }
+    
     notifyPlayer("你破产啦！！！！！房子家产自动消失！！！！！还有人！！！");
     int _turn = getTurnWithWho(who);
     PlayerSprite *player = playerSprites[_turn];
@@ -196,6 +199,8 @@ void GameLayer::brokeProcedure(int who) {
         land->data = 0;
         land->setTexture(texture);
     }
+    
+    // delete player from pnum and playerSprites
     int j = 0;
     for(std::vector<PlayerSprite *>::iterator i = playerSprites.begin();
         i != playerSprites.end(); j++) {
@@ -217,34 +222,7 @@ void GameLayer::brokeProcedure(int who) {
     }
     updateToolsLayer();
 }
-void GameLayer::transfer(int src, int dst, int amout) {
-    playerSprites[getTurnWithWho(src)]->cash -= amout;
-    playerSprites[getTurnWithWho(dst)]->cash += amout;
-
-    ostringstream oss;
-    oss << "交租金" << amout << "，不能露宿街头，必须租房子住，破产就破产！";
-
-    notifyPlayer(oss.str());
-    if(playerSprites[getTurnWithWho(src)]->cash < 0)
-        brokeProcedure(src);
-    //updateCash();
-}
-void GameLayer::purchase() {
-    PlayerSprite *player = playerSprites[turn];
-    LandSprite *land = locateLand(player->p).getCurrent();
-    player->cash -= land->streetVal;
-    player->properties.push_back(land);
-    land->levelUp(pnum[turn]);
-    //updateCash();
-}
-void GameLayer::purchase_levelup() {
-    PlayerSprite *player = playerSprites[turn];
-    LandSprite *land = locateLand(player->p).getCurrent();
-    playerSprites[turn]->cash -= land->streetVal;
-    land->levelUp(pnum[turn]);
-}
 void GameLayer::move(int step) {
-    // issue: after all the construction... landSprites seems to change into a big list of NULL...
     DoubleDList<LandSprite *>::DDListIte<LandSprite *> cIter = locateLand(playerSprites[turn]->p);
     Vector< FiniteTimeAction * > arrayOfActions;
     if(playerSprites[turn]->facing == FACING_CLK) {
@@ -269,6 +247,7 @@ void GameLayer::moveAnimCallback() {
     isMoving = false;
     checkIn();
 }
+
 bool GameLayer::checkOut() {
     int status = playerSprites[turn]->status;
     bool ret = true;
@@ -292,22 +271,26 @@ void GameLayer::checkIn() {
     LandSprite *land = locateLand(playerSprites[turn]->p).getCurrent();
     switch(land->type) {
         case LTYPE_UNOCCUPIED:
+            // can't afford
             if(playerSprites[turn]->cash < land->streetVal)
                 break;
-            oss << "买不买，钩还是叉，一口价，" << land->streetVal << "？";
+            // ask if buy
+            oss << "买不买，钩还是叉，一口价" << land->streetVal << "？";
             tag = TAG_PURCHASE;
             askPlayer(oss.str());
-            //notifyPlayer("自动买房");
             return;
-        case LTYPE_SHOP: {
+        case LTYPE_SHOP:
             // not enough ticket
             if(playerSprites[turn]->ticket < itemCost[ITEM_ROBOT])
                 break;
             goShop();
             return;
-        }
-        case LTYPE_GIFT: break;
-        case LTYPE_MAGIC: break;
+        case LTYPE_GIFT:
+            // TODO
+            break;
+        case LTYPE_MAGIC:
+            // wait for client
+            break;
         case LTYPE_HOSPITAL:
         case LTYPE_PRISON: break;
         case LTYPE_MINE:
@@ -316,7 +299,7 @@ void GameLayer::checkIn() {
             notifyPlayer(oss.str());
             break;
         default:
-            // TODO
+            // Land type left are: lv1, lv2, maxlv
             if(land->owner != pnum[turn]) {
                 int amout = land->data;
                 if(playerSprites[turn]->status / STATUS_MONEYGOD % 10)
@@ -325,15 +308,64 @@ void GameLayer::checkIn() {
             }
             else if(land->type == LTYPE_MAXLV) break;
             else {
+                // not enough cash for the level-up
                 if(playerSprites[turn]->cash < land->streetVal)
                     break;
-                oss << "升不升级，升级牛逼，一口价" << land->streetVal << "！";
+                oss << "就说升不升级，升级牛逼，一口价" << land->streetVal << "！";
                 tag = TAG_LEVELUP;
                 askPlayer(oss.str());
                 return;
             }
     }
     nextTurn();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Use of Game Item
+
+// TODO
+void GameLayer::blockBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_BLOCK] == 0) return;
+}
+void GameLayer::bombBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_BOMB] == 0) return;
+}
+void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
+    if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Game Logic Helper Methods
+
+int GameLayer::getTurnWithWho(int who) {
+    for(int i = 0; i < playerSprites.size(); i++) {
+        if(pnum[i] == who)
+            return i;
+    }
+    return 0;
+}
+
+DoubleDList<LandSprite *>::DDListIte<LandSprite *> GameLayer::locateLand(Position p) {
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> iter = landSprites.headIte();
+    LandSprite *tmp = iter.getCurrent();
+    if(iter.getCurrent() == NULL) return NULL;
+    do{
+        if(iter.getCurrent()->p.isEqual(p))
+            return iter;
+        iter.moveBack();
+    } while(iter.getCurrent() != tmp);
+    return NULL;
+}
+
+void GameLayer::nextTurn() {
+    if(++turn == pnum.size()) {
+        day++;
+        ostringstream oss;
+        oss << "第" << day << "天";
+        dayTxt->setString(oss.str());
+        turn = 0;
+    }
+    updateToolsLayer();
 }
 
 void GameLayer::updateToolsLayer() {
@@ -355,28 +387,6 @@ void GameLayer::updateToolsLayer() {
     oss << "x" << playerSprites[turn]->items[ITEM_ROBOT];
     robotTxt->setString(oss.str());
 }
-void GameLayer::nextTurn() {
-    if(++turn == pnum.size()) {
-        day++;
-        ostringstream oss;
-        oss << "第" << day << "天";
-        dayTxt->setString(oss.str());
-        turn = 0;
-    }
-    updateToolsLayer();
-}
-
-void GameLayer::blockBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
-    if(playerSprites[turn]->items[ITEM_BLOCK] == 0) return;
-
-}
-void GameLayer::bombBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
-    if(playerSprites[turn]->items[ITEM_BOMB] == 0) return;
-}
-void GameLayer::robotBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
-    if(playerSprites[turn]->items[ITEM_ROBOT] == 0) return;
-}
-
 
 void GameLayer::notifyPlayer(string info) {
     notice = Layer::create();
@@ -411,10 +421,15 @@ void GameLayer::askPlayer(string info) {
 
 }
 void GameLayer::yesBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
-    if(tag == TAG_PURCHASE)
-        purchase();
+    PlayerSprite *player = playerSprites[turn];
+    LandSprite *land = locateLand(player->p).getCurrent();
+    
+    if(tag == TAG_PURCHASE) {
+        player->purchaseLand(land);
+    }
     else if(tag == TAG_LEVELUP)
-        purchase_levelup();
+        player->levelupLand(land);
+    
     noBtnListener(sender, type);
 }
 void GameLayer::noBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
@@ -423,6 +438,10 @@ void GameLayer::noBtnListener(cocos2d::Ref *sender, cocos2d::ui::Widget::TouchEv
     ask = NULL;
     nextTurn();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Scene Change
+
 void GameLayer::goShop() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(ShopLayer::createScene(playerSprites[turn]->ticket));
@@ -430,6 +449,11 @@ void GameLayer::goShop() {
 void GameLayer::goPause() {
     Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     CCDirector::getInstance()->pushScene(PauseLayer::createScene());
+}
+void GameLayer::gameOver(int lastLoser) {
+    int winner = pnum[++turn%2];
+    Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+    CCDirector::getInstance()->replaceScene(OverLayer::createScene(winner));
 }
 void GameLayer::shopCallBack(Ref *pSender) {
     initEventListener();
@@ -444,7 +468,10 @@ void GameLayer::defaultCallBack(Ref *pSender) {
     initEventListener();
 }
 
-// touch methods, help create a moveable map
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Touch Methods
+
+// help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(isMoving) return true;
     if(notice != NULL) {
@@ -475,9 +502,9 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(avatarBtnRec.containsPoint(touchLoc)) {
         //brokeProcedure(pnum[turn]);
         // for debug sake
-        //changePOV(playerSprites[turn]->p);
-        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
-        CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
+        changePOV(playerSprites[turn]->p);
+//        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
+//        CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
         return true;
     }
 
@@ -513,6 +540,6 @@ void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){
     prvTouchLoc = touchLoc;
 }
 void GameLayer::touchEnded(cocos2d::Touch *touch, cocos2d::Event *event){
-    Point touchLoc = touch->getLocation();
-    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
+//    Point touchLoc = touch->getLocation();
+//    log("x: %f, y: %f", touchLoc.x, touchLoc.y);
 }

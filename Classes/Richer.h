@@ -75,11 +75,11 @@ public:
     cocos2d::Vec2 toRealPosAbove();
 };
 
-// size: 2~4
-extern std::vector<int> pnum;
-extern int turn;
-extern int day;
-extern int add[ITEM_KINDS];
+// globals for game logic
+extern std::vector<int> pnum;   // holds players' color and in the order of picks, size: 2~4
+extern int turn;                // in the order of picks, turn changes from the first player to the second and son forth.
+extern int day;                 // once every player ended his turn, day++
+extern int add[ITEM_KINDS];     // used to pass on the choices in shop layer
 
 extern std::string pavatar[4];
 extern std::string houseImg[4][4];

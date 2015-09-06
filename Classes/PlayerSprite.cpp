@@ -14,7 +14,7 @@ PlayerSprite* PlayerSprite::create(int who, int fund)
     sprite->facing = FACING_CLK;
     // init fund
     sprite->cash = fund;
-    sprite->ticket = 20000;
+    sprite->ticket = 0;
     sprite->status = STATUS_NORM;
     // init items
     for(int i = 0; i < ITEM_KINDS; i++) {
@@ -36,6 +36,15 @@ PlayerSprite::PlayerSprite(){}
 void PlayerSprite::move2Spot(Position dst) {
     p = dst;
     this->runAction(MoveTo::create(1/2.0, dst.toRealPos()));
+}
+void PlayerSprite::purchaseLand(LandSprite *land) {
+    cash -= land->streetVal;
+    properties.push_back(land);
+    land->levelUp(pnum[turn]);
+}
+void PlayerSprite::levelupLand(LandSprite *land) {
+    cash -= land->streetVal;
+    land->levelUp(pnum[turn]);
 }
 
 int PlayerSprite::getNetWorth() {
