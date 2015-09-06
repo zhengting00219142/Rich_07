@@ -8,7 +8,7 @@
 
 #include "PlayerSprite.h"
 
-PlayerSprite* PlayerSprite::create(int fund)
+PlayerSprite* PlayerSprite::create(int who, int fund)
 {
     PlayerSprite *sprite = new (std::nothrow) PlayerSprite();
     sprite->facing = FACING_CLK;

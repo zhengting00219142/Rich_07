@@ -44,7 +44,7 @@ GameLayer *GameLayer::create(int fund)
     
     // init players
     for(int i = 0; i < pnum.size(); i++) {
-        PlayerSprite *player = PlayerSprite::create(fund);
+        PlayerSprite *player = PlayerSprite::create(pnum[i], fund);
         player->p = Position(0, MAP_ROW-1);
         ret->playerSprites.push_back(player);
         player->setPosition(player->p.toRealPos());

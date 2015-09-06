@@ -24,7 +24,7 @@ public:
     int items[ITEM_KINDS];
     std::vector<LandSprite *> properties;
     
-    static PlayerSprite *create(int fund);
+    static PlayerSprite *create(int who, int fund);
     PlayerSprite();
     
     void move2Spot(Position dst);
