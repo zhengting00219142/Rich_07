@@ -36,6 +36,8 @@ class GameLayer : public cocos2d::Layer
     cocos2d::ui::Text *blockTxt;
     cocos2d::ui::Text *bombTxt;
     cocos2d::ui::Text *robotTxt;
+    cocos2d::Layer *notice;
+    
     Point prvTouchLoc;
     bool isMoving;
 public:
@@ -70,7 +72,7 @@ public:
     void goShop();
     void goPause();
     void shopCallBack(cocos2d::Ref *pSender);
-    void pauseCallBack(cocos2d::Ref *pSender);
+    void defaultCallBack(cocos2d::Ref *pSender);
 };
 
 #endif /* defined(__Richer__GameLayer__) */
