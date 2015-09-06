@@ -60,6 +60,7 @@ InitLayer *InitLayer::create()
 		richButtons[i] = dynamic_cast<Button*>(rootNode->getChildByName(richs[i]));
 		markButtons[i] = dynamic_cast<Button*>(rootNode->getChildByName(marks[i]));
 		richButtons[i]->addClickEventListener(CC_CALLBACK_1(InitLayer::richChooseCallback, ret, i)); // add touch listener.
+		pnum.push_back(i);
 		i++;
 	}
 
@@ -83,15 +84,16 @@ void InitLayer::playCallback(Ref* sender, Widget::TouchEventType type)
 {
     if (type == Widget::TouchEventType::ENDED)
     {
-        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
         // pnum has the correct riches
 		// check the fond is reliable.
 		stringstream ss;
-		ss << fondField->getString();
+		ss << fondField->getStringValue();
 		int fond = 0;
 		ss >> fond;
-		if (fond >= 10000 && fond <= 50000)
+		if (fond >= 10000 && fond <= 50000) {
+			Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
 			CCDirector::getInstance()->replaceScene(GameLayer::createScene(fond));
+		}
 		else
 			return;
     }
@@ -127,7 +129,7 @@ void InitLayer::richChooseCallback(Ref* sender, int i) {
 
 	// if pnum is not correct , This is to say , the number of riches is not correct
 	// cannot go to next step
-	if (pnum.size() <= 2) {
+	if (pnum.size() < 2) {
 		playButton->setTouchEnabled(false);
 	} else {
 		playButton->setTouchEnabled(true);
