@@ -20,6 +20,8 @@ public:
     int data;
     int owner;
     
+    std::vector<Sprite *> objs;
+    
     static LandSprite *create(int type);
     static LandSprite *create();
     LandSprite();
@@ -27,6 +29,7 @@ public:
     void setUp(int streetVal, Position p);
     
     void levelUp(int who);
+    void putObj(int what);
 };
 
 #endif /* defined(__Richer__LandSprite__) */

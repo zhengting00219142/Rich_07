@@ -30,6 +30,7 @@ std::string houseImg[4][4] = {
     {"unoccupied.png", "home2_1.png", "home2_2.png", "home2_3.png"},
     {"unoccupied.png", "home3_1.png", "home3_2.png", "home3_3.png"},
     {"unoccupied.png", "home4_1.png", "home4_2.png", "home4_3.png"}};
+std::string itemImg[ITEM_KINDS] = {"block.png", "bomb.png", "robot.png"};
 
 // issue: I want a better solution...
 int string2Int(std::string str) {

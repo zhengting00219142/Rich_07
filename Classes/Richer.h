@@ -31,6 +31,7 @@
 #define ITEM_ROBOT 2
 // 3 kinds of item
 #define ITEM_KINDS 3
+#define PLANT_DIST 10
 // costs
 extern int itemCost[ITEM_KINDS];
 
@@ -83,6 +84,7 @@ extern int add[ITEM_KINDS];     // used to pass on the choices in shop layer
 
 extern std::string pavatar[4];
 extern std::string houseImg[4][4];
+extern std::string itemImg[ITEM_KINDS];
 
 int string2Int(std::string str);
 int rollDice();

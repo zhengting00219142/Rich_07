@@ -57,6 +57,7 @@ class GameLayer : public cocos2d::Layer
     Point prvTouchLoc;
     ostringstream stringHelper;
     bool isMoving;
+    int isPlantingWhat;
 public:
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Initalization

@@ -73,6 +73,7 @@ GameLayer::GameLayer()
     addObserv();
     initMap();
     isMoving = false;
+    isPlantingWhat = ITEM_KINDS;
     notice = NULL;
     ask = NULL;
     //    tmpLabel = NULL;
@@ -327,6 +328,7 @@ void GameLayer::checkIn() {
 // TODO
 void GameLayer::blockBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     if(playerSprites[turn]->items[ITEM_BLOCK] == 0) return;
+    
 }
 void GameLayer::bombBtnListener(cocos2d::Ref *sender, ui::Widget::TouchEventType type) {
     if(playerSprites[turn]->items[ITEM_BOMB] == 0) return;
@@ -474,6 +476,9 @@ void GameLayer::defaultCallBack(Ref *pSender) {
 
 // help create a moveable map
 bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
+    Point touchLoc = touch->getLocation();
+    prvTouchLoc = touchLoc;
+    
     if(isMoving) return true;
     if(notice != NULL) {
         notice->removeFromParent();
@@ -488,7 +493,6 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 //        tmpLabel = NULL;
 //        return true;
 //    }
-    Point touchLoc = touch->getLocation();
     Rect pauseBtnRec = pauseBtn->getBoundingBox();
     if(pauseBtnRec.containsPoint(touchLoc)) {
         goPause();
@@ -498,6 +502,7 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
     if(diceBtnRec.containsPoint(touchLoc)) {
         // roll dice...
         move(rollDice());
+        return true;
     }
     Rect avatarBtnRec = avatarBtn->getBoundingBox();
     if(avatarBtnRec.containsPoint(touchLoc)) {
@@ -507,6 +512,46 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 //        Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
 //        CCDirector::getInstance()->replaceScene(OverLayer::createScene(3));
         return true;
+    }
+    if(isPlantingWhat != ITEM_KINDS) {
+        
+        DoubleDList<LandSprite *>::DDListIte<LandSprite *> ci = locateLand(playerSprites[turn]->p), iter = ci;
+        LandSprite *tmp = iter.getCurrent();
+        // ignoring when the list might be empty
+        if(landSprites.getSize() > (PLANT_DIST*2+1)) {
+            int i = 0;
+            while(i != (PLANT_DIST+1)){
+                Vec2 rp = this->convertToWorldSpaceAR(iter.getCurrent()->getPosition());
+                if(Rect(rp.x, rp.y, tileSiz, tileSiz).containsPoint(touchLoc)) {
+                    iter.getCurrent()->putObj(isPlantingWhat);
+                    return true;
+                }
+                iter.moveBack();
+                i++;
+            }
+            i = 0;
+            iter = ci;
+            iter.moveFront();
+            while(i != PLANT_DIST){
+                Vec2 rp = this->convertToWorldSpaceAR(iter.getCurrent()->getPosition());
+                if(Rect(rp.x, rp.y, tileSiz, tileSiz).containsPoint(touchLoc)) {
+                    iter.getCurrent()->putObj(isPlantingWhat);
+                    return true;
+                }
+                iter.moveFront();
+                i++;
+            }
+        }
+        else {
+            do{
+                Vec2 rp = this->convertToWorldSpaceAR(iter.getCurrent()->getPosition());
+                if(Rect(rp.x, rp.y, tileSiz, tileSiz).containsPoint(touchLoc)) {
+                    iter.getCurrent()->putObj(isPlantingWhat);
+                    return true;
+                }
+                iter.moveBack();
+            } while(iter.getCurrent() != tmp);
+        }
     }
 
 //    Vec2 currentPos = this->getPosition();
@@ -525,8 +570,6 @@ bool GameLayer::touchBegan(cocos2d::Touch *touch, cocos2d::Event *event){
 //            }
 //        }
 //    }
-
-    prvTouchLoc = touchLoc;
     return true;
 }
 void GameLayer::touchMoved(cocos2d::Touch *touch, cocos2d::Event *event){

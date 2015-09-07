@@ -12,6 +12,7 @@ LandSprite* LandSprite::create(int type)
 {
     LandSprite *sprite = new (std::nothrow) LandSprite();
     sprite->type = type;
+    sprite->objs.clear();
     if (sprite && sprite->initWithFile(sprite->int2Img(type)))
     {
         sprite->autorelease();
@@ -63,4 +64,13 @@ void LandSprite::levelUp(int who) {
     this->data += streetVal;
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(houseImg[who][type]);
     this->setTexture(texture);
+}
+
+void LandSprite::putObj(int what) {
+    Sprite *obj = Sprite::create(itemImg[what]);
+    // #trying out user data, might cause error
+    obj->setUserData(&what);
+    obj->setScale(tileScale);
+    this->addChild(obj);
+    objs.push_back(obj);
 }
