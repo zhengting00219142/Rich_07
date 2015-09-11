@@ -13,23 +13,20 @@
 
 class LandSprite : public cocos2d::Sprite{
 public:
-    Position p;
-    
-    int type;
-    int streetVal;
-    int data;
-    int owner;
-    
-    std::vector<Sprite *> objs;
+    Position p;                     // 地图系统坐标
+    int type;                       // 土地类型
+    int streetVal;                  // 街道价值
+    int data;                       // 土地数据
+    int owner;                      // 土地所有者
+    std::vector<Sprite *> objs;     // 土地上的物品, 比如: 炸弹...
     
     static LandSprite *create(int type);
-    static LandSprite *create();
     LandSprite();
-    std::string int2Img(int i);
-    void setUp(int streetVal, Position p);
+    std::string int2Img(int i);             // 地图类型转资源string的帮助方法
+    void setUp(int streetVal, Position p);  // 初始化
     
-    void levelUp(int who);
-    void putObj(int what);
+    void levelUp(int who);                  // 升级函数
+    void putObj(int what);                  // 放置物品
 };
 
 #endif /* defined(__Richer__LandSprite__) */

@@ -72,8 +72,8 @@ public:
     Position(int x, int y);
     void setPosition(int x, int y);
     bool isEqual(Position other);
-    cocos2d::Vec2 toRealPos();
-    cocos2d::Vec2 toRealPosAbove();
+    cocos2d::Vec2 toRealPos();      // 转换成cocos2d坐标系坐标
+    cocos2d::Vec2 toRealPosAbove(); // 转换成cocos2d坐标系坐标, 再往上一点...
 };
 
 // globals for game logic

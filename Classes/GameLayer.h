@@ -78,29 +78,30 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Game Map
     
-    void initMap();
-    void initLandSprite(LandSprite *land, int streetVal, Position p);
-    void changePOV(Position p);
+    void initMap();                                                     // 初始化地图, 内含地图数据
+    void initLandSprite(LandSprite *land, int streetVal, Position p);   // 地图初始化的帮助方法
+    void changePOV(Position p);                                         // 更换视角
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Game Logic
     
-    void transfer(int src, int dst, int amout);
-    void brokeProcedure(int who);
-    void move(int step);
-        void moveAnimCallback();
-    bool checkOut();
-    void checkIn();
+    void transfer(int src, int dst, int amout);     // 交易, 对应规则: 交房租
+    void brokeProcedure(int who);                   // 破产程序, 对应规则: 破产
+    void move(int step);                            // 移动step步, 对应规则: 移动
+        void moveAnimCallback();                    // 移动动画监听
+    
+    bool checkOut();                                // 刚轮到某玩家, 检查其状态
+    void checkIn();                                 // 玩家掷完骰子, 移动结束, 查看当前位置的土地
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Game Logic Helper Methods
     
-    int getTurnWithWho(int who);
-    DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);
-    void nextTurn();
-    void updateToolsLayer();
-    void notifyPlayer(string info);
-    void askPlayer(string info);
+    int getTurnWithWho(int who);                                                // 根据玩家代号, 查询轮流顺序
+    DoubleDList<LandSprite *>::DDListIte<LandSprite *> locateLand(Position p);  // 获得位置p上的土地
+    void nextTurn();                                                            // 下一轮
+    void updateToolsLayer();                                                    // 更新显示界面: 现金, 道具...
+    void notifyPlayer(string info);                                             // 告知玩家
+    void askPlayer(string info);                                                // 询问玩家
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Scene Change

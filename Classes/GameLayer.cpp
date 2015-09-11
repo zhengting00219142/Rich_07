@@ -122,10 +122,10 @@ void GameLayer::initMap() {
     for(int i = 0; i < MAP_COL; i++) {
         lt[i] = LTYPE_UNOCCUPIED;
     }
-    lt[14]=LTYPE_HOSPITAL; lt[MAP_COL-1]=LTYPE_SHOP;
-    LandSprite *_land = LandSprite::create();
-    initLandSprite(_land, 0, Position(0, MAP_ROW-1));
-    for(int i = 1, y = MAP_ROW-1; i < MAP_COL; i++) {
+    lt[0]=LTYPE_NOTHING; lt[14]=LTYPE_HOSPITAL; lt[MAP_COL-1]=LTYPE_SHOP;
+//    LandSprite *_land = LandSprite::create();
+//    initLandSprite(_land, 0, Position(0, MAP_ROW-1));
+    for(int i = 0, y = MAP_ROW-1; i < MAP_COL; i++) {
         LandSprite *land = NULL;
         land = LandSprite::create(lt[i]);
         initLandSprite(land, 200, Position(i, y));

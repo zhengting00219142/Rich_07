@@ -22,21 +22,9 @@ LandSprite* LandSprite::create(int type)
     return nullptr;
 }
 
-LandSprite* LandSprite::create()
-{
-    LandSprite *sprite = new (std::nothrow) LandSprite();
-    sprite->type = LTYPE_NOTHING;
-    if (sprite && sprite->init())
-    {
-        sprite->autorelease();
-        return sprite;
-    }
-    CC_SAFE_DELETE(sprite);
-    return nullptr;
-}
-
 std::string LandSprite::int2Img(int i) {
     switch (i) {
+        case LTYPE_NOTHING: return "start.png";
         case LTYPE_UNOCCUPIED: return "unoccupied.png";
         case LTYPE_SHOP: return "shop.png";
         case LTYPE_GIFT: return "gift.png";
